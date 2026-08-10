@@ -1,0 +1,3506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Math Pattern Trainer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .streak-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #1e293b;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+
+        .streak-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fbbf24;
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tab {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #1e293b;
+            color: #94a3b8;
+            border: 1px solid #334155;
+        }
+
+        .tab.active {
+            background: #0ea5e9;
+            color: #fff;
+            border-color: #0ea5e9;
+        }
+
+        .difficulty-control {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+
+        .diff-btn {
+            padding: 8px 16px;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            background: #1e293b;
+            color: #94a3b8;
+            transition: all 0.2s ease;
+        }
+
+        .diff-btn.active {
+            background: #10b981;
+            color: #fff;
+            border-color: #10b981;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .question-box {
+            background: #1e293b;
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+
+        .question {
+            font-size: 48px;
+            font-weight: 700;
+            color: #0ea5e9;
+            letter-spacing: -0.02em;
+        }
+
+        input[type="number"] {
+            padding: 16px;
+            font-size: 18px;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #f1f5f9;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #0ea5e9;
+        }
+
+        input.correct {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        input.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .feedback-box {
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            border: 1px solid;
+        }
+
+        .feedback-correct {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .feedback-wrong {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        button[type="submit"], .next-btn {
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #fff;
+        }
+
+        button[type="submit"] {
+            background: #0ea5e9;
+        }
+
+        button[type="submit"]:hover {
+            background: #0284c7;
+        }
+
+        .next-btn {
+            background: #10b981;
+        }
+
+        .stats {
+            display: flex;
+            gap: 16px;
+            background: #1e293b;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .reset-btn {
+            padding: 8px 12px;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: #94a3b8;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .reset-btn:hover {
+            background: #334155;
+        }
+
+        .guide-section {
+            display: none;
+        }
+
+        .guide-section.active {
+            display: block;
+        }
+
+        .trick {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .trick-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0ea5e9;
+            margin-bottom: 12px;
+        }
+
+        .trick-rule {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 12px;
+            border-left: 4px solid #0ea5e9;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        .example {
+            background: rgba(10, 184, 129, 0.08);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            border-left: 4px solid #10b981;
+        }
+
+        .example-step {
+            color: #cbd5e1;
+            margin-bottom: 6px;
+        }
+
+        .example-result {
+            font-weight: 700;
+            color: #10b981;
+            margin-top: 8px;
+        }
+
+        .practice-link {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 12px;
+            background: #0ea5e9;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .practice-link:hover {
+            background: #0284c7;
+        }
+
+        .solution-box {
+            background: #1e293b;
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .solution-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 16px;
+        }
+
+        .solution-method {
+            background: rgba(16, 185, 129, 0.08);
+            padding: 16px;
+            border-left: 4px solid #10b981;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .step-num {
+            background: #10b981;
+            color: #0f172a;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            color: #cbd5e1;
+        }
+
+        .step-code {
+            background: #0f172a;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            color: #10b981;
+            margin: 0 4px;
+            display: inline-block;
+        }
+
+        .final-answer {
+            background: #0f172a;
+            border: 2px solid #10b981;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .final-answer-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .final-answer-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .solution-btn {
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            background: transparent;
+            color: #10b981;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .solution-btn:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .trick-name {
+            font-size: 14px;
+            color: #0ea5e9;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 4px;
+            display: inline-block;
+        }
+    
+        /* Pattern-recognition teaching system */
+        .pattern-panel {
+            background: #111c2e;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .pattern-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .pattern-eyebrow {
+            font-size: 11px;
+            letter-spacing: .12em;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .pattern-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+        .confidence {
+            padding: 5px 9px;
+            border-radius: 999px;
+            background: rgba(14,165,233,.12);
+            color: #38bdf8;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .pattern-reason {
+            color: #cbd5e1;
+            line-height: 1.55;
+            margin-bottom: 16px;
+        }
+        .visual-flow {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            gap: 8px;
+        }
+        .flow-node {
+            flex: 1 1 120px;
+            min-width: 105px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 9px;
+            padding: 12px;
+            text-align: center;
+        }
+        .flow-label {
+            font-size: 11px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: 6px;
+        }
+        .flow-value {
+            color: #f8fafc;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            word-break: break-word;
+        }
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #38bdf8;
+            font-size: 20px;
+            padding: 0 2px;
+        }
+        .why-box {
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-left: 3px solid #0ea5e9;
+            background: rgba(14,165,233,.07);
+            border-radius: 6px;
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .pattern-chip {
+            display: inline-block;
+            margin-right: 6px;
+            padding: 3px 7px;
+            border-radius: 5px;
+            background: rgba(16,185,129,.10);
+            color: #34d399;
+            font-weight: 700;
+        }
+        .solution-toggle-note {
+            color: #94a3b8;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 4px;
+        }
+        @media (max-width: 520px) {
+            .visual-flow { display: grid; grid-template-columns: 1fr; }
+            .flow-arrow { transform: rotate(90deg); min-height: 18px; }
+        }
+
+            .daily-options{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+        .daily-option{display:flex;align-items:center;gap:12px;text-align:left;padding:14px;border:1px solid #334155;border-radius:10px;background:#1e293b;color:#cbd5e1;cursor:pointer}
+        .daily-option.active{border-color:#0ea5e9;background:rgba(14,165,233,.08)}
+        .daily-option-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:#0ea5e9;color:#fff;font-size:19px;font-weight:800;flex-shrink:0}
+        .daily-option-icon.cube{background:#10b981}
+        .daily-option strong{display:block;color:#f8fafc;font-size:15px;margin-bottom:3px}
+        .daily-option small{display:block;color:#94a3b8;font-size:12px}
+        .daily-sheet{margin-bottom:28px}
+        .sheet-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px;padding:18px;background:#1e293b;border:1px solid #334155;border-radius:12px}
+        .sheet-eyebrow{font-size:11px;font-weight:800;letter-spacing:.12em;color:#0ea5e9;margin-bottom:5px}
+        .sheet-header h2{font-size:24px;margin-bottom:5px}
+        .sheet-header p{color:#94a3b8;font-size:13px}
+        .sheet-goal{color:#10b981;border:1px solid rgba(16,185,129,.35);background:rgba(16,185,129,.08);border-radius:8px;padding:8px 10px;font-size:12px;white-space:nowrap}
+        .daily-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 12px;background:#1e293b;border:1px solid #334155;border-radius:12px;padding:16px}
+        .daily-row{display:grid;grid-template-columns:1fr 92px 62px;gap:7px;align-items:center;min-height:42px}
+        .daily-row.header-row{color:#94a3b8;font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;border-bottom:1px solid #334155;padding-bottom:7px}
+        .daily-number{font-weight:700;font-size:15px;color:#f1f5f9}
+        .daily-answer{width:100%;padding:7px 6px;font-size:14px;border:1px solid #475569;border-radius:6px;background:#0f172a;color:#f1f5f9;text-align:center}
+        .daily-answer:focus{outline:none;border-color:#0ea5e9}
+        .daily-answer.correct{border-color:#10b981;background:rgba(16,185,129,.08)}
+        .daily-answer.wrong{border-color:#ef4444;background:rgba(239,68,68,.08)}
+        .daily-check{padding:7px 8px;border:1px solid #0ea5e9;border-radius:6px;background:transparent;color:#38bdf8;font-weight:700;font-size:11px;cursor:pointer}
+        .daily-tip{margin-top:12px;padding:12px 14px;border-left:3px solid #0ea5e9;border-radius:6px;background:rgba(14,165,233,.07);color:#cbd5e1;font-size:13px}
+        .daily-complete{margin-top:12px;padding:12px;text-align:center;border-radius:8px;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.3);color:#34d399;font-weight:700}
+        @media(max-width:800px){.daily-options{grid-template-columns:1fr}.sheet-header{flex-direction:column}.daily-grid{grid-template-columns:1fr}.sheet-goal{white-space:normal}}
+    
+        .daily-option-icon.table{background:#f59e0b}
+    
+        .daily-actions{display:flex;justify-content:center;margin:18px 0 12px}
+        .daily-submit{padding:12px 24px;border:0;border-radius:8px;background:#0ea5e9;color:#fff;font-weight:800;font-size:14px;cursor:pointer}
+        .daily-submit:hover{filter:brightness(1.08)}
+        .daily-submit:disabled{opacity:.6;cursor:default}
+        .daily-results{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:18px;margin-bottom:12px}
+        .result-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}
+        .result-title{font-size:19px;font-weight:800;color:#f8fafc}
+        .result-time{color:#38bdf8;font-weight:800}
+        .result-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+        .result-card{padding:12px;border-radius:8px;background:#0f172a;border:1px solid #334155}
+        .result-card-label{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em}
+        .result-card-value{font-size:20px;font-weight:800;color:#f8fafc;margin-top:3px}
+        .result-good{color:#34d399!important}.result-bad{color:#f87171!important}
+        .comparison{padding:12px 14px;border-radius:8px;background:rgba(14,165,233,.07);border-left:3px solid #0ea5e9;color:#cbd5e1;line-height:1.5}
+        .solution-summary{margin-top:14px}
+        .solution-summary-title{font-weight:800;color:#f8fafc;margin-bottom:8px}
+        .daily-solution{display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 0;border-bottom:1px solid #334155;font-size:13px}
+        .daily-solution:last-child{border-bottom:0}
+        .daily-solution .answer{font-family:monospace;color:#34d399;font-weight:700}
+        .daily-solution.wrong .answer{color:#f87171}
+        .session-note{color:#94a3b8;font-size:12px;margin-top:10px}
+        @media(max-width:800px){.result-cards{grid-template-columns:repeat(2,1fr)}}
+    
+        .table-check-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid #334155}
+        .table-check-all{padding:8px 18px;border:1px solid #f59e0b;border-radius:7px;background:rgba(245,158,11,.08);color:#fbbf24;font-weight:800;font-size:12px;cursor:pointer}
+        .table-check-all:hover{background:rgba(245,158,11,.15)}
+        .table-status{font-size:12px;font-weight:700}
+    
+        .table-selector{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:14px;margin-bottom:12px}
+        .table-selector-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#94a3b8;margin-bottom:10px}
+        .table-list{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+        .table-choice{padding:9px 5px;border:1px solid #475569;border-radius:7px;background:#0f172a;color:#cbd5e1;font-weight:700;cursor:pointer}
+        .table-choice:hover{border-color:#f59e0b}
+        .table-choice.active{background:rgba(245,158,11,.12);border-color:#f59e0b;color:#fbbf24}
+        .selected-table-heading{font-size:16px;font-weight:800;color:#f59e0b;padding:2px 0 10px}
+        @media(max-width:700px){.table-list{grid-template-columns:repeat(5,1fr)}}
+    
+        .streak-label{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em}
+        .session-context{font-size:12px;color:#94a3b8;margin-top:6px}
+    
+        .table-card{background:#0f172a;border:1px solid #334155;border-radius:10px;padding:12px;margin-bottom:10px}
+        .table-card-title{font-weight:800;color:#f59e0b;font-size:16px;margin-bottom:8px}
+        .table-card .daily-row{grid-template-columns:1fr 120px}
+    
+        button:focus-visible,input:focus-visible{outline:2px solid #38bdf8;outline-offset:2px}
+    
+        .recall-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+        .recall-column{min-width:0}
+        @media(max-width:800px){.recall-grid{grid-template-columns:1fr}}
+    
+        .daily-dashboard{margin-bottom:28px}
+        .dashboard-intro{padding:20px;background:#1e293b;border:1px solid #334155;border-radius:12px;margin-bottom:14px}
+        .dashboard-intro h2{font-size:25px;margin:3px 0 5px}
+        .dashboard-intro p{color:#94a3b8;font-size:13px}
+        .daily-options{margin-bottom:18px}
+        .daily-option{min-height:104px}
+        .daily-progress{display:block;font-style:normal;color:#64748b;font-size:11px;margin-top:5px}
+        .daily-option.active .daily-progress{color:#38bdf8}
+        .dashboard-progress{padding:16px 18px;background:#1e293b;border:1px solid #334155;border-radius:12px}
+        .dashboard-section-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;font-weight:800;margin-bottom:10px}
+        .progress-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+        .progress-card{padding:12px;background:#0f172a;border:1px solid #334155;border-radius:8px}
+        .progress-card span{display:block;color:#94a3b8;font-size:11px}
+        .progress-card strong{display:block;color:#f8fafc;font-size:18px;margin-top:3px}
+        .dashboard-insight{margin-top:10px;padding:10px 12px;border-left:3px solid #0ea5e9;background:rgba(14,165,233,.06);border-radius:5px;color:#cbd5e1;font-size:12px}
+        .back-to-daily{display:block;margin:0 0 12px;padding:8px 12px;border:1px solid #334155;border-radius:7px;background:#1e293b;color:#cbd5e1;cursor:pointer;font-weight:700}
+        .back-to-daily:hover{border-color:#0ea5e9;color:#38bdf8}
+        @media(max-width:800px){.progress-cards{grid-template-columns:1fr}}
+    
+        /* Editorial learning UI: warm, airy, typographic, deliberately not the previous dark dashboard. */
+        :root{--paper:#fbfaf7;--paper2:#f2efe8;--ink:#25231f;--muted:#777169;--faint:#a29b90;--line:#ded9cf;--coral:#e85b4f;--coralSoft:#fbe5e1;--sage:#5d8b70;--sageSoft:#e4efe7;--yellow:#e4a62a;--yellowSoft:#fff1d0;--shadow:0 14px 35px rgba(43,35,25,.07)}
+        html{background:var(--paper);scroll-behavior:smooth}
+        body{margin:0;padding:0 24px 70px;background:var(--paper);color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+        .container{width:min(1120px,100%);max-width:none;margin:0 auto}
+        .header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;min-height:76px;margin:0 -24px 40px;padding:0 max(24px,calc((100vw - 1120px)/2));border-bottom:1px solid var(--line);background:rgba(251,250,247,.96);backdrop-filter:blur(12px);position:relative;z-index:10}
+        .brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;justify-self:start}
+        .brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--coral);color:#fff;font:700 17px Georgia,serif}
+        .brand-eyebrow{font-size:9px;font-weight:850;letter-spacing:.15em;color:var(--coral);line-height:1;margin-bottom:3px}
+        .title{font:700 17px/1 Georgia,serif;letter-spacing:-.02em}
+        .tabs{display:flex;align-items:center;gap:3px;margin:0;padding:4px;border:1px solid var(--line);border-radius:999px;background:#fff;box-shadow:0 3px 12px rgba(43,35,25,.04)}
+        .tab{min-width:120px;padding:8px 16px;border:0;border-radius:999px;background:transparent;color:#6e6961;font-size:12px;font-weight:650;transition:.18s ease}
+        .tab:hover{background:var(--paper2);color:var(--ink)}
+        .tab.active{background:var(--ink);color:#fff}.tab.active::after{display:none}
+        .streak-display{justify-self:end;display:flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid var(--line);border-radius:999px;background:#fff}
+        .streak-flame{font-size:13px}.streak-copy{display:flex;align-items:baseline;gap:5px}.streak-label{color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}.streak-text{font-size:14px;color:var(--coral);font-weight:800}
+
+        .daily-dashboard{max-width:940px;margin:0 auto}
+        .dashboard-intro{padding:26px 4px 24px;margin-bottom:20px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none}
+        .dashboard-intro::after{display:none}
+        .dashboard-kicker{color:var(--coral);font-size:10px;font-weight:850;letter-spacing:.13em;text-transform:uppercase;margin-bottom:7px}
+        .dashboard-intro h2{margin:0 0 8px;font:700 42px/1.05 Georgia,serif;letter-spacing:-.045em}
+        .dashboard-intro p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+        .section-rule{display:flex;align-items:center;gap:10px;margin:0 0 11px;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}
+        .rule-line{height:1px;background:var(--line);flex:1}
+        .daily-options{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:12px;margin-bottom:28px}
+        .daily-option{position:relative;min-height:160px;display:flex;align-items:flex-end;gap:12px;padding:18px;text-align:left;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);box-shadow:none;overflow:hidden;transition:.2s ease}
+        .daily-option::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--line)}
+        .daily-option:first-child::before{background:var(--coral)}.daily-option:nth-child(2)::before{background:var(--sage)}.daily-option:nth-child(3)::before{background:var(--yellow)}
+        .daily-option:hover{transform:translateY(-2px);border-color:#cfc8bc;box-shadow:var(--shadow)}
+        .daily-option.active{border-color:var(--ink);box-shadow:var(--shadow)}
+        .daily-option-icon{position:absolute;top:18px;right:18px;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:var(--coralSoft);color:#c9473c;font:700 18px Georgia,serif}
+        .daily-option-icon.cube{background:var(--sageSoft);color:var(--sage)}.daily-option-icon.table{background:var(--yellowSoft);color:#946a0b}
+        .daily-option strong{display:block;color:var(--ink);font:700 20px/1.05 Georgia,serif;max-width:145px}.daily-option small{display:block;color:var(--muted);font-size:11px;margin-top:7px}.daily-progress{display:block;color:var(--faint);font-size:10px;margin-top:8px;font-style:normal}.daily-option.active .daily-progress{color:#c9473c}
+        .dashboard-progress{padding:0 0 4px;border:0;border-radius:0;background:transparent;box-shadow:none}
+        .dashboard-section-title{color:var(--ink);font:700 19px Georgia,serif;letter-spacing:-.02em;margin-bottom:11px;text-transform:none}
+        .progress-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:var(--line)}
+        .progress-card{min-height:82px;padding:14px 16px;border:0;border-radius:0;background:#fff}.progress-card span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.06em}.progress-card strong{display:block;margin-top:8px;color:var(--ink);font:700 20px Georgia,serif}
+        .dashboard-insight{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--coral);border-radius:8px;background:#fff;color:#59554e;font-size:11px}
+
+        .back-to-daily{margin:0 auto 14px;padding:7px 11px;border:0;border-radius:999px;background:var(--paper2);color:#5d5952;font-size:11px;font-weight:700}.back-to-daily:hover{background:#e8e3da;color:var(--ink)}
+        .sheet-header{max-width:940px;margin:0 auto 12px;padding:22px 4px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none}.sheet-header h2{font:700 30px Georgia,serif;letter-spacing:-.03em;color:var(--ink)}.sheet-header p{color:var(--muted)}
+        .daily-grid{max-width:940px;margin:0 auto;padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:none}.daily-row.header-row{color:#8b857c;border-bottom-color:var(--line)}
+        .daily-answer,input[type="number"]{background:#fbfaf7;border-color:#d7d1c6;color:var(--ink);border-radius:9px}.daily-answer:focus,input[type="number"]:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(232,91,79,.1)}.daily-answer.correct{border-color:var(--sage);background:var(--sageSoft)}.daily-answer.wrong{border-color:var(--coral);background:var(--coralSoft)}
+        .daily-actions{max-width:940px;margin:14px auto}.daily-submit{border:0;border-radius:999px;background:var(--ink);color:#fff;box-shadow:none;padding:12px 25px}.daily-submit:hover{background:#383530}
+        .daily-results{max-width:940px;margin:0 auto 12px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:none}
+        .table-selector{max-width:940px;margin:0 auto 12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff}.table-selector-title{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}.table-choice{border-color:var(--line);background:#fbfaf7;color:#5b574f;border-radius:999px}.table-choice.active{border-color:var(--ink);background:var(--ink);color:#fff}
+        .difficulty-control{padding:3px;border:1px solid var(--line);border-radius:999px;background:#fff}.diff-btn{border:0;border-radius:999px;background:transparent}.diff-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}
+        .question-box{max-width:700px;margin:22px auto;padding:48px 28px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow)}.question{color:var(--ink);font:700 56px Georgia,serif}
+        .stats{max-width:700px;margin:14px auto;border-color:var(--line);border-radius:12px;background:#fff;box-shadow:none}.guide-section{border-color:var(--line);border-radius:14px;background:#fff;box-shadow:none}
+        button:focus-visible,input:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+        @media(max-width:850px){body{padding:0 16px 50px}.header{margin:0 -16px 28px;padding:0 16px;grid-template-columns:auto 1fr auto;gap:12px}.tabs{justify-self:center}.tab{min-width:92px;padding:8px 10px}.daily-options{grid-template-columns:1fr}.daily-option{min-height:120px}.dashboard-intro h2{font-size:35px}}
+        @media(max-width:620px){.header{grid-template-columns:1fr auto;min-height:68px}.tabs{grid-column:1/-1;grid-row:2;width:100%;justify-content:stretch;margin-bottom:10px}.tab{flex:1;min-width:0}.streak-display{grid-column:2;grid-row:1}.brand{grid-column:1;grid-row:1}.dashboard-intro{padding:15px 0 20px}.dashboard-intro h2{font-size:30px}.progress-cards{grid-template-columns:1fr}.progress-card{min-height:65px}.question{font-size:43px}.question-box{padding:38px 18px}}
+
+    
+        /* Intelligent learning layer */
+        .today-strip{
+            display:flex;justify-content:space-between;align-items:center;
+            margin-bottom:12px;padding:11px 14px;
+            border:1px solid var(--line);border-radius:10px;background:#fff;
+        }
+        .today-label,.recommendation-label,.focus-label{
+            display:block;color:var(--coral);font-size:9px;font-weight:850;
+            letter-spacing:.13em;text-transform:uppercase;
+        }
+        .today-strip strong{font:700 16px Georgia,serif;color:var(--ink)}
+        .today-message{font-size:11px;color:var(--muted)}
+        .recommendation-card{
+            display:flex;justify-content:space-between;align-items:center;gap:20px;
+            margin-bottom:28px;padding:20px 22px;
+            border:1px solid var(--ink);border-radius:14px;background:var(--ink);color:#fff;
+            box-shadow:var(--shadow);
+        }
+        .recommendation-copy h3{margin:5px 0 4px;font:700 24px Georgia,serif;letter-spacing:-.025em}
+        .recommendation-copy p{margin:0;color:#c7c3bb;font-size:11px}
+        .recommendation-label{color:#f39b92}
+        .recommendation-action{
+            flex:none;padding:10px 17px;border:0;border-radius:999px;
+            background:#fff;color:var(--ink);font-weight:800;font-size:11px;
+        }
+        .recommendation-action:hover{background:#f2eee8}
+        .practice-focusbar{
+            max-width:940px;margin:0 auto 10px;
+            display:flex;justify-content:space-between;align-items:center;
+        }
+        .focus-count{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+        .quiet-toggle{
+            padding:7px 11px;border:1px solid var(--line);border-radius:999px;
+            background:#fff;color:var(--muted);font-size:10px;font-weight:750;
+        }
+        .quiet-toggle.active{background:var(--ink);border-color:var(--ink);color:#fff}
+
+        /* Sprint/quiet mode */
+        body.quiet-mode .header,
+        body.quiet-mode .back-to-daily,
+        body.quiet-mode .practice-focusbar,
+        body.quiet-mode .sheet-header,
+        body.quiet-mode .daily-actions{display:none!important}
+        body.quiet-mode .daily-sheet{padding-top:8vh}
+        body.quiet-mode .daily-grid{border:0;box-shadow:none;max-width:680px}
+        body.quiet-mode .daily-grid .daily-row{font-size:18px}
+        body.quiet-mode .daily-grid .daily-answer{height:48px;font-size:20px}
+        body.quiet-mode .daily-results{max-width:680px}
+
+        /* Stronger result intelligence */
+        .next-target{
+            margin-top:12px;padding:13px 14px;border-radius:9px;
+            background:var(--coralSoft);border:1px solid #f3cbc5;color:#514944;
+            font-size:11px;
+        }
+        .next-target strong{color:var(--coral-dark)}
+
+        @media(max-width:620px){
+            .today-strip{align-items:flex-start;gap:10px}
+            .today-message{text-align:right}
+            .recommendation-card{align-items:flex-start;padding:18px}
+            .recommendation-copy h3{font-size:20px}
+            .recommendation-action{align-self:center}
+        }
+
+    
+        /* =========================================================
+           LIGHT EDITORIAL THEME — GLOBAL TEXT / PAGE CONSISTENCY
+           Final overrides for every existing screen.
+           ========================================================= */
+
+        body,
+        .daily-sheet,
+        .daily-dashboard,
+        .guide-section,
+        #practiceForm{
+            color:var(--ink);
+        }
+
+        /* Daily recall pages */
+        .sheet-eyebrow,
+        .dashboard-kicker,
+        .daily-number,
+        .daily-row .daily-number,
+        .daily-tip,
+        .session-context,
+        .session-note,
+        .comparison,
+        .solution-toggle-note{
+            color:var(--muted);
+        }
+
+        .daily-number,
+        .daily-row .daily-number{
+            color:var(--ink);
+            font-weight:700;
+        }
+
+        .sheet-header h2,
+        .sheet-header .daily-title,
+        .result-title,
+        .result-card-value,
+        .solution-summary-title,
+        .solution-title,
+        .final-answer-value{
+            color:var(--ink);
+        }
+
+        .result-time,
+        .result-card-label,
+        .result-card-value,
+        .solution-summary-title{
+            color:var(--ink);
+        }
+
+        .result-good,
+        .daily-solution .answer,
+        .example-result,
+        .final-answer-value{
+            color:var(--sage)!important;
+        }
+
+        .result-bad,
+        .daily-solution.wrong .answer{
+            color:var(--coral)!important;
+        }
+
+        /* Table pages */
+        .selected-table-heading,
+        .table-card-title{
+            color:#946a0b;
+        }
+
+        .table-selector-title,
+        .table-status,
+        .table-list,
+        .table-answer{
+            color:var(--muted);
+        }
+
+        .table-choice{
+            color:#5b574f;
+        }
+
+        .table-choice.active{
+            color:#fff;
+        }
+
+        /* Multiplication / calculation screen */
+        .pattern-title,
+        .flow-value,
+        .trick-title,
+        .final-answer-label{
+            color:var(--ink);
+        }
+
+        .pattern-reason,
+        .why-box,
+        .step-text,
+        .solution-method,
+        .solution-toggle-note,
+        .stat-label,
+        .reset-btn{
+            color:var(--muted);
+        }
+
+        .step-code,
+        .final-answer-value,
+        .solution-btn,
+        .example-result{
+            color:var(--sage);
+        }
+
+        .flow-label{
+            color:var(--muted);
+        }
+
+        .flow-arrow,
+        .confidence{
+            color:var(--blue);
+        }
+
+        .pattern-chip{
+            color:var(--sage);
+            background:var(--sageSoft);
+            border-color:#c9ddd0;
+        }
+
+        .pattern-eyebrow,
+        .trick-name{
+            color:var(--coral);
+        }
+
+        .question{
+            color:var(--ink);
+        }
+
+        .feedback-box,
+        .result-head,
+        .result-title,
+        .stats,
+        .result-card{
+            color:var(--ink);
+        }
+
+        /* Guide page */
+        .guide-section,
+        .guide-section p,
+        .guide-section li,
+        .guide-section .step-text,
+        .guide-section .why-box{
+            color:var(--ink);
+        }
+
+        .guide-section .trick-rule,
+        .guide-section .step-text,
+        .guide-section .solution-toggle-note{
+            color:var(--muted);
+        }
+
+        .guide-section .step-code,
+        .guide-section .example-result,
+        .guide-section .final-answer-value{
+            color:var(--sage);
+        }
+
+        /* Inputs/buttons */
+        input[type="number"],
+        .daily-answer,
+        .table-answer{
+            color:var(--ink);
+            caret-color:var(--coral);
+        }
+
+        .daily-check,
+        .solution-btn{
+            color:var(--coral);
+        }
+
+        /* Avoid clipping the focus controls on narrow practice screens. */
+        .practice-focusbar{
+            width:min(940px,100%);
+            box-sizing:border-box;
+            padding:0 2px;
+        }
+
+        .practice-focusbar > *{
+            min-width:0;
+        }
+
+        .quiet-toggle{
+            flex:0 0 auto;
+            white-space:nowrap;
+        }
+
+        @media(max-width:620px){
+            .practice-focusbar{
+                gap:10px;
+            }
+            .focus-count{
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow:ellipsis;
+            }
+        }
+
+    
+        /* =========================================================
+           PHASE 1–3 PRODUCT UI
+           ========================================================= */
+        .calculation-section{margin:28px 0 20px;padding:20px 0;border-top:1px solid var(--line)}
+        .calculation-heading{display:flex;justify-content:space-between;align-items:end;margin-bottom:11px}
+        .calculation-kicker,.page-kicker{color:var(--coral);font-size:9px;font-weight:850;letter-spacing:.14em;text-transform:uppercase}
+        .calculation-heading h3{margin:4px 0 0;font:700 21px Georgia,serif}
+        .calculation-note{font-size:10px;color:var(--faint)}
+        .calculation-modules{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+        .calculation-module{min-height:78px;display:flex;align-items:center;gap:11px;text-align:left;padding:13px 14px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink)}
+        .calculation-module.active{border-color:#cfc8bc;box-shadow:var(--shadow)}
+        .calculation-module:hover:not(:disabled){transform:translateY(-1px)}
+        .calculation-module.disabled,.calculation-module.future{opacity:.58}
+        .module-symbol{width:35px;height:35px;display:grid;place-items:center;border-radius:50%;background:var(--coralSoft);color:var(--coral);font:700 18px Georgia,serif;flex:none}
+        .module-symbol.division{background:#ece6f8;color:#7655a8}
+        .calculation-module strong{display:block;font:700 13px Georgia,serif}.calculation-module small{display:block;margin-top:3px;color:var(--muted);font-size:10px}
+        .module-arrow{margin-left:auto;font-size:17px}.module-badge{margin-left:auto;font-size:8px;font-weight:850;letter-spacing:.08em;color:var(--faint)}
+
+        .progress-page,.review-page{max-width:940px;margin:0 auto}
+        .progress-page-head,.review-head{padding:22px 4px 24px;border-bottom:1px solid var(--line);margin-bottom:16px}
+        .progress-page-head{display:flex;justify-content:space-between;align-items:end;gap:20px}
+        .progress-page h2,.review-head h2{margin:5px 0 7px;font:700 36px/1.05 Georgia,serif;letter-spacing:-.04em}
+        .progress-page p,.review-head p{margin:0;color:var(--muted);font-size:13px}
+        .review-mistakes-btn{border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:#fff;padding:10px 15px;font-size:11px;font-weight:800}
+        .mastery-overview{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+        .mastery-card{padding:17px;border:1px solid var(--line);border-radius:12px;background:#fff}
+        .mastery-label{font-size:9px;letter-spacing:.1em;font-weight:850;color:var(--muted)}
+        .mastery-card strong{display:block;margin:6px 0 10px;font:700 20px Georgia,serif}
+        .mastery-card small{display:block;color:var(--muted);font-size:10px;margin-top:7px}
+        .mastery-bar{height:5px;border-radius:99px;background:var(--paper2);overflow:hidden}
+        .mastery-bar span{display:block;height:100%;width:0;background:var(--coral);border-radius:99px;transition:width .35s ease}
+        .progress-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .progress-panel{padding:17px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:12px}
+        .panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px}
+        .panel-head h3{margin:0;font:700 18px Georgia,serif}.panel-head span{color:var(--muted);font-size:10px}
+        .weak-spots-list,.session-history{display:grid;gap:7px}
+        .weak-item,.history-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;border:1px solid #e6e1d8;border-radius:8px;background:#fbfaf7}
+        .weak-item strong{font:700 14px Georgia,serif}.weak-item small,.history-item small{color:var(--muted);font-size:10px}
+        .weak-item button{border:0;border-radius:999px;background:var(--ink);color:#fff;padding:6px 9px;font-size:9px;font-weight:800}
+        .history-item .history-name{font-weight:750;font-size:11px}.history-score{font-weight:800;color:var(--sage)}
+        .trend-panel{min-height:170px}
+        .trend-chart{height:95px;display:flex;align-items:end;gap:6px;padding:8px 0}
+        .trend-bar{flex:1;min-width:7px;max-width:30px;border-radius:5px 5px 2px 2px;background:var(--coral);opacity:.75;position:relative}
+        .trend-bar span{position:absolute;left:50%;bottom:100%;transform:translate(-50%,-3px);font-size:8px;color:var(--muted)}
+        .review-head{position:relative}
+        .back-progress{border:0;background:var(--paper2);color:#5d5952;border-radius:999px;padding:7px 11px;font-size:10px;font-weight:750;margin-bottom:17px}
+        .review-card{max-width:650px;margin:30px auto;padding:30px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow);text-align:center}
+        .review-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:9px;font-weight:850;letter-spacing:.1em}
+        .review-question{margin:38px 0 24px;font:700 54px Georgia,serif}
+        .review-card input{width:100%;height:50px;text-align:center;font-size:20px}
+        .review-check,.review-next{width:100%;margin-top:10px;border:0;border-radius:999px;background:var(--ink);color:#fff;padding:12px;font-weight:800}
+        .review-next{background:var(--sage)}
+        .review-feedback{margin-top:12px;padding:12px;border-radius:8px;font-size:12px}.review-feedback.ok{background:var(--sageSoft);color:var(--sage)}.review-feedback.bad{background:var(--coralSoft);color:var(--coral-dark)}
+        .practice-mode-switch{display:flex;padding:3px;border:1px solid var(--line);border-radius:999px;background:#fff}
+        .mode-btn{border:0;border-radius:999px;background:transparent;color:var(--muted);padding:6px 10px;font-size:9px;font-weight:800}
+        .mode-btn.active{background:var(--ink);color:#fff}
+        .sprint-area{max-width:700px;margin:20px auto;padding:34px 25px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow);text-align:center}
+        .sprint-progress{height:4px;background:var(--paper2);border-radius:99px;overflow:hidden}.sprint-progress span{display:block;width:10%;height:100%;background:var(--coral);transition:width .2s}
+        .sprint-counter{display:flex;justify-content:space-between;margin-top:10px;color:var(--muted);font-size:10px}
+        .sprint-question{margin:42px 0 24px;font:700 56px Georgia,serif}
+        .sprint-answer{width:min(330px,100%);height:52px;text-align:center;font-size:20px}
+        .sprint-check,.sprint-next{display:block;width:min(330px,100%);margin:12px auto 0;padding:12px;border:0;border-radius:999px;background:var(--ink);color:#fff;font-weight:800}
+        .sprint-next{background:var(--sage)}
+        .sprint-feedback{margin:12px auto 0;padding:11px;border-radius:8px;font-size:12px;max-width:330px}.sprint-feedback.ok{background:var(--sageSoft);color:var(--sage)}.sprint-feedback.bad{background:var(--coralSoft);color:var(--coral-dark)}
+
+        @media(max-width:760px){
+            .calculation-modules,.mastery-overview{grid-template-columns:1fr}
+            .progress-columns{grid-template-columns:1fr}
+            .progress-page-head{align-items:flex-start;flex-direction:column}
+        }
+        @media(max-width:620px){
+            .practice-mode-switch{order:3}
+            .practice-focusbar{flex-wrap:wrap}
+            .sprint-question,.review-question{font-size:44px}
+        }
+
+    
+        /* =========================================================
+           DAILY ANALYSIS — editorial analytics
+           ========================================================= */
+        .analysis-head{
+            max-width:940px;margin:0 auto 24px;padding:8px 0 20px;
+            border-bottom:1px solid var(--line);
+            display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+        }
+        .analysis-head h2{
+            margin:6px 0 7px;color:var(--ink);
+            font:700 36px/1.05 Georgia,"Times New Roman",serif;
+            letter-spacing:-.04em;
+        }
+        .analysis-head p{margin:0;color:var(--muted);font-size:13px}
+        .analysis-range{
+            display:flex;gap:2px;padding:3px;border:1px solid var(--line);
+            border-radius:999px;background:#fff;flex:none;
+        }
+        .analysis-range-btn{
+            border:0;border-radius:999px;background:transparent;color:var(--muted);
+            padding:8px 12px;font-size:10px;font-weight:750;cursor:pointer;
+        }
+        .analysis-range-btn:hover{background:var(--paper2);color:var(--ink)}
+        .analysis-range-btn.active{background:var(--ink);color:#fff}
+
+        .analysis-snapshot,.analysis-panel{
+            max-width:940px;margin:0 auto 14px;
+        }
+        .analysis-section-label{
+            color:var(--coral);font-size:9px;font-weight:850;
+            letter-spacing:.13em;text-transform:uppercase;margin:0 0 9px;
+        }
+        .snapshot-grid{
+            display:grid;grid-template-columns:repeat(4,1fr);
+            gap:1px;border:1px solid var(--line);border-radius:12px;
+            overflow:hidden;background:var(--line);
+        }
+        .snapshot-card{min-height:88px;padding:15px 16px;background:#fff}
+        .snapshot-card span{
+            display:block;color:var(--muted);font-size:10px;
+            text-transform:uppercase;letter-spacing:.06em;
+        }
+        .snapshot-card strong{
+            display:block;margin-top:9px;color:var(--ink);
+            font:700 23px Georgia,serif;
+        }
+
+        .analysis-panel{
+            padding:19px;
+            border:1px solid var(--line);border-radius:14px;
+            background:#fff;box-shadow:none;
+        }
+        .analysis-panel-head{
+            display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:14px;
+        }
+        .analysis-panel-head h3{
+            margin:0;color:var(--ink);
+            font:700 20px Georgia,serif;letter-spacing:-.025em;
+        }
+        .analysis-panel-head p{margin:5px 0 0;color:var(--muted);font-size:10px}
+        .analysis-panel-head>strong,.analysis-panel-head>span{
+            color:var(--muted);font-size:10px;font-weight:750;
+        }
+
+        .performance-panel{padding-bottom:13px}
+        .analysis-chart{
+            position:relative;height:190px;margin:0 0 4px 36px;
+            display:flex;align-items:flex-end;gap:10px;
+            padding:10px 5px 0;
+            border-bottom:1px solid var(--line);
+            background:repeating-linear-gradient(
+                to bottom,
+                transparent 0,transparent 46px,
+                #eeeae3 47px,#eeeae3 48px
+            );
+        }
+        .analysis-bar-wrap{
+            flex:1;min-width:22px;height:100%;display:flex;align-items:flex-end;justify-content:center;
+            position:relative;
+        }
+        .analysis-bar{
+            width:min(30px,70%);min-height:8px;border-radius:6px 6px 2px 2px;
+            background:var(--coral);position:relative;
+        }
+        .analysis-bar span{
+            position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 5px);
+            color:var(--muted);font-size:8px;font-weight:800;white-space:nowrap;
+        }
+        .analysis-bar-label{
+            position:absolute;bottom:-19px;color:var(--faint);font-size:8px;
+            white-space:nowrap;
+        }
+        .trend-axis{
+            position:absolute;display:flex;flex-direction:column;justify-content:space-between;
+            height:190px;color:#aaa398;font-size:8px;
+        }
+        .trend-legend{
+            display:flex;justify-content:space-between;margin:22px 0 0 36px;
+            color:var(--muted);font-size:9px;
+        }
+        .trend-legend span:first-child::before{
+            content:"";display:inline-block;width:7px;height:7px;margin-right:5px;
+            border-radius:50%;background:var(--coral);
+        }
+
+        .skill-table{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+        .skill-row{
+            display:grid;grid-template-columns:1.6fr 1fr 1fr 1.1fr;
+            gap:12px;align-items:center;padding:11px 13px;border-bottom:1px solid var(--line);
+            font-size:11px;
+        }
+        .skill-row:last-child{border-bottom:0}
+        .skill-head{background:var(--paper2);color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.07em;font-weight:800}
+        .skill-name{font-weight:750;color:var(--ink)}
+        .skill-accuracy{font-weight:800;color:var(--ink)}
+        .skill-speed{color:var(--muted)}
+        .skill-status{font-size:9px;font-weight:800}
+        .status-mastered{color:var(--sage)}.status-strong{color:var(--sage)}.status-practicing{color:#9a6b08}.status-learning{color:var(--coral)}.status-new{color:var(--faint)}
+
+        .analysis-two-col{
+            max-width:940px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:14px;
+        }
+        .analysis-two-col .analysis-panel{margin:0;max-width:none}
+        .analysis-link-btn{
+            border:0;background:transparent;color:var(--coral);font-size:10px;font-weight:800;
+            padding:3px 0;cursor:pointer;
+        }
+
+        .analysis-weak-list,.session-history{min-height:80px}
+        .weak-item,.history-item{
+            display:flex;justify-content:space-between;align-items:center;gap:12px;
+            padding:10px 0;border-bottom:1px solid var(--line);
+        }
+        .weak-item:last-child,.history-item:last-child{border-bottom:0}
+        .weak-item strong{display:block;color:var(--ink);font:700 15px Georgia,serif}
+        .weak-item small,.history-item small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
+        .weak-item button{
+            border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);
+            padding:6px 10px;font-size:9px;font-weight:750;cursor:pointer;
+        }
+        .weak-item button:hover{border-color:var(--coral);color:var(--coral)}
+        .history-name{display:block;color:var(--ink);font-size:11px;font-weight:750}
+        .history-score{color:var(--ink);font:700 16px Georgia,serif}
+        .empty-state{padding:18px 4px;color:var(--muted);font-size:10px}
+
+        .mastery-panel{padding-bottom:15px}
+        .mastery-block{margin-top:15px}
+        .mastery-block-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+        .mastery-block-head strong{font:700 14px Georgia,serif;color:var(--ink)}
+        .mastery-block-head span{color:var(--muted);font-size:9px}
+        .mastery-map{
+            display:grid;grid-template-columns:repeat(11,1fr);gap:4px;
+        }
+        .mastery-cell{
+            position:relative;display:flex;align-items:center;justify-content:center;
+            min-height:34px;border:1px solid var(--line);border-radius:6px;
+            background:var(--paper2);color:var(--muted);font-size:9px;font-weight:800;
+        }
+        .mastery-cell.learning{background:var(--coralSoft);border-color:#f1c9c3;color:var(--coral-dark)}
+        .mastery-cell.strong{background:var(--sageSoft);border-color:#c8ddd0;color:#4d785f}
+        .mastery-cell.mastered{background:#d5eadb;border-color:#a9cdb4;color:#356348}
+        .mastery-cell.not-started{background:#f7f5f0;color:#b1aaa0}
+        .mastery-cell .mastery-tip{
+            position:absolute;display:none;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);
+            padding:5px 7px;border-radius:5px;background:var(--ink);color:#fff;font-size:8px;
+            white-space:nowrap;z-index:4;
+        }
+        .mastery-cell:hover .mastery-tip{display:block}
+        .mastery-legend{display:flex;flex-wrap:wrap;gap:13px;margin-top:13px;color:var(--muted);font-size:9px}
+        .mastery-dot{display:inline-block;width:7px;height:7px;margin-right:4px;border-radius:50%;background:#ddd}
+        .mastery-dot.learning{background:var(--coral)}.mastery-dot.strong{background:var(--sage)}.mastery-dot.mastered{background:#4d8b61}
+
+        .next-step-panel{
+            display:flex;justify-content:space-between;align-items:center;gap:24px;
+            background:var(--ink);border-color:var(--ink);color:#fff;
+        }
+        .next-step-panel .page-kicker{color:#f39b92}
+        .next-step-panel h3{margin:6px 0 5px;color:#fff;font:700 23px Georgia,serif}
+        .next-step-panel p{margin:0;color:#c7c3bb;font-size:11px;max-width:600px}
+        .analysis-primary-btn{
+            flex:none;padding:11px 18px;border:0;border-radius:999px;background:#fff;color:var(--ink);
+            font-size:10px;font-weight:850;cursor:pointer;
+        }
+
+        @media(max-width:820px){
+            .analysis-head{align-items:flex-start;flex-direction:column}
+            .analysis-range{align-self:flex-start}
+            .analysis-two-col{grid-template-columns:1fr}
+            .snapshot-grid{grid-template-columns:repeat(2,1fr)}
+        }
+        @media(max-width:620px){
+            .analysis-head h2{font-size:30px}
+            .analysis-range{width:100%}
+            .analysis-range-btn{flex:1}
+            .snapshot-grid{grid-template-columns:1fr 1fr}
+            .snapshot-card{min-height:76px}
+            .snapshot-card strong{font-size:19px}
+            .analysis-panel{padding:15px}
+            .skill-row{grid-template-columns:1.4fr .8fr .8fr 1fr;gap:6px;padding:10px 8px;font-size:9px}
+            .skill-head{font-size:8px}
+            .analysis-chart{gap:5px;margin-left:30px}
+            .analysis-bar{width:70%}
+            .mastery-map{grid-template-columns:repeat(8,1fr)}
+            .next-step-panel{align-items:flex-start;flex-direction:column}
+            .analysis-primary-btn{width:100%}
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <a class="brand" href="#" id="brandHome" aria-label="Mental Math Pattern Trainer home">
+                <div class="brand-mark">M</div>
+                <div class="brand-copy">
+                    <div class="brand-eyebrow">MENTAL MATH</div>
+                    <div class="title">Pattern Trainer</div>
+                </div>
+            </a>
+
+            <nav class="tabs" aria-label="Primary">
+                <button class="tab active" data-tab="daily">Daily Practice</button>
+                <button class="tab" data-tab="multiply">Multiplication</button>
+                <button class="tab" data-tab="analysis">Analysis</button>
+                <button class="tab" data-tab="guide">Guide</button>
+            </nav>
+
+            <div class="streak-display" id="streakDisplay">
+                <span class="streak-flame">⚡</span>
+                <span class="streak-copy">
+                    <span class="streak-label">Streak</span>
+                    <span class="streak-text" id="streak">0</span>
+                </span>
+            </div>
+        </header>
+
+        <section class="daily-dashboard" id="dailyDashboard">
+            <div class="today-strip">
+                <div>
+                    <span class="today-label">TODAY</span>
+                    <strong id="todayTarget">0 / 10 min</strong>
+                </div>
+                <div class="today-message" id="todayMessage">A short session is enough.</div>
+            </div>
+
+            <section class="recommendation-card" id="recommendationCard">
+                <div class="recommendation-copy">
+                    <span class="recommendation-label">RECOMMENDED NEXT</span>
+                    <h3 id="recommendationTitle">Squares 10–40</h3>
+                    <p id="recommendationReason">Build recall before pushing speed.</p>
+                </div>
+                <button class="recommendation-action" id="recommendationAction" type="button">Start →</button>
+            </section>
+
+            <div class="dashboard-intro">
+                <div>
+                    <div class="dashboard-kicker">YOUR DAILY SET</div>
+                    <h2>Ten minutes to a sharper memory.</h2>
+                    <p>Small, focused repetitions. Faster recall follows.</p>
+                </div>
+            </div>
+
+            <div class="section-rule">
+                <span>Choose a skill</span><span class="rule-line"></span><span>1 of 3</span>
+            </div>
+            <div class="daily-options" id="dailyOptions">
+                <button class="daily-option active" data-daily="squares">
+                    <span class="daily-option-icon">x²</span>
+                    <span>
+                        <strong>Square Practice</strong>
+                        <small>10–40 • Daily recall</small>
+                        <em class="daily-progress" id="squareProgress">Start session</em>
+                    </span>
+                </button>
+                <button class="daily-option" data-daily="cubes">
+                    <span class="daily-option-icon cube">x³</span>
+                    <span>
+                        <strong>Cube Practice</strong>
+                        <small>1–25 • Daily recall</small>
+                        <em class="daily-progress" id="cubeProgress">Start session</em>
+                    </span>
+                </button>
+                <button class="daily-option" data-daily="tables">
+                    <span class="daily-option-icon table">×</span>
+                    <span>
+                        <strong>Table Practice</strong>
+                        <small>10–30 • ×1 to ×10</small>
+                        <em class="daily-progress" id="tableProgress">Choose a table</em>
+                    </span>
+                </button>
+            </div>
+
+            <section class="calculation-section" aria-label="Calculation practice">
+                <div class="calculation-heading">
+                    <div>
+                        <span class="calculation-kicker">CALCULATION</span>
+                        <h3>Build speed after recall.</h3>
+                    </div>
+                    <span class="calculation-note">More modules coming</span>
+                </div>
+                <div class="calculation-modules">
+                    <button class="calculation-module active" type="button" data-open-calculation="multiply">
+                        <span class="module-symbol">×</span>
+                        <span><strong>Multiplication</strong><small>Patterns & shortcuts</small></span>
+                        <span class="module-arrow">→</span>
+                    </button>
+                    <button class="calculation-module disabled" type="button" disabled>
+                        <span class="module-symbol division">÷</span>
+                        <span><strong>Division</strong><small>Coming next</small></span>
+                        <span class="module-badge">SOON</span>
+                    </button>
+                    <div class="calculation-module future">
+                        <span class="module-symbol">+</span>
+                        <span><strong>More techniques</strong><small>Percentages, fractions & more</small></span>
+                        <span class="module-badge">SOON</span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="dashboard-progress">
+                <div class="dashboard-section-title">Your recent progress</div>
+                <div class="progress-cards">
+                    <div class="progress-card">
+                        <span>Squares</span>
+                        <strong id="homeSquareStat">—</strong>
+                    </div>
+                    <div class="progress-card">
+                        <span>Cubes</span>
+                        <strong id="homeCubeStat">—</strong>
+                    </div>
+                    <div class="progress-card">
+                        <span>Tables</span>
+                        <strong id="homeTableStat">—</strong>
+                    </div>
+                </div>
+                <div class="dashboard-insight" id="homeInsight">Complete a session to build your baseline.</div>
+            </div>
+        </section>
+
+        
+        <section class="progress-page hidden" id="progressPage">
+            <div class="analysis-head">
+                <div>
+                    <span class="page-kicker">DAILY ANALYSIS</span>
+                    <h2>Your mental-math training at a glance.</h2>
+                    <p>See what is improving, what needs work, and what to practice next.</p>
+                </div>
+                <div class="analysis-range" id="analysisRange" role="group" aria-label="Analysis period">
+                    <button type="button" class="analysis-range-btn" data-range="1">Today</button>
+                    <button type="button" class="analysis-range-btn active" data-range="7">7 days</button>
+                    <button type="button" class="analysis-range-btn" data-range="30">30 days</button>
+                </div>
+            </div>
+
+            <section class="analysis-snapshot">
+                <div class="analysis-section-label">TODAY'S SNAPSHOT</div>
+                <div class="snapshot-grid">
+                    <div class="snapshot-card">
+                        <span>Practice time</span>
+                        <strong id="analysisTodayTime">—</strong>
+                    </div>
+                    <div class="snapshot-card">
+                        <span>Accuracy</span>
+                        <strong id="analysisTodayAccuracy">—</strong>
+                    </div>
+                    <div class="snapshot-card">
+                        <span>Avg / question</span>
+                        <strong id="analysisTodaySpeed">—</strong>
+                    </div>
+                    <div class="snapshot-card">
+                        <span>Correct</span>
+                        <strong id="analysisTodayCorrect">—</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="analysis-panel performance-panel">
+                <div class="analysis-panel-head">
+                    <div>
+                        <h3>Performance</h3>
+                        <p>Accuracy across your recent sessions.</p>
+                    </div>
+                    <strong id="trendSummary">Build your baseline</strong>
+                </div>
+                <div class="trend-axis"><span>100%</span><span>75%</span><span>50%</span><span>25%</span><span>0%</span></div>
+                <div class="analysis-chart" id="trendChart">
+                    <div class="analysis-empty">Complete a session to see your trend.</div>
+                </div>
+                <div class="trend-legend">
+                    <span>Accuracy</span>
+                    <span id="trendCount">0 sessions</span>
+                </div>
+            </section>
+
+            <section class="analysis-panel">
+                <div class="analysis-panel-head">
+                    <div>
+                        <h3>Skill breakdown</h3>
+                        <p>Accuracy and average response time over the selected period.</p>
+                    </div>
+                </div>
+                <div class="skill-table" id="skillBreakdown">
+                    <div class="skill-row skill-head">
+                        <span>Skill</span><span>Accuracy</span><span>Speed</span><span>Status</span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="analysis-two-col">
+                <section class="analysis-panel">
+                    <div class="analysis-panel-head">
+                        <div>
+                            <h3>Needs attention</h3>
+                            <p>Numbers and tables you miss most often.</p>
+                        </div>
+                        <button class="analysis-link-btn" id="reviewMistakesBtn" type="button">Review →</button>
+                    </div>
+                    <div id="weakSpotsList" class="weak-spots-list analysis-weak-list"></div>
+                </section>
+
+                <section class="analysis-panel">
+                    <div class="analysis-panel-head">
+                        <div>
+                            <h3>Recent sessions</h3>
+                            <p>Latest first.</p>
+                        </div>
+                    </div>
+                    <div id="sessionHistory" class="session-history"></div>
+                </section>
+            </div>
+
+            <section class="analysis-panel mastery-panel">
+                <div class="analysis-panel-head">
+                    <div>
+                        <h3>Your mastery</h3>
+                        <p>Repeated recall, not one perfect attempt.</p>
+                    </div>
+                    <span id="masteryOverall">0%</span>
+                </div>
+
+                <div class="mastery-block">
+                    <div class="mastery-block-head">
+                        <strong>Squares</strong><span>10–40</span>
+                    </div>
+                    <div class="mastery-map" id="squareMasteryMap"></div>
+                </div>
+
+                <div class="mastery-block">
+                    <div class="mastery-block-head">
+                        <strong>Cubes</strong><span>1–25</span>
+                    </div>
+                    <div class="mastery-map" id="cubeMasteryMap"></div>
+                </div>
+
+                <div class="mastery-block">
+                    <div class="mastery-block-head">
+                        <strong>Tables</strong><span>10–30</span>
+                    </div>
+                    <div class="mastery-map" id="tableMasteryMap"></div>
+                </div>
+
+                <div class="mastery-legend">
+                    <span><i class="mastery-dot not-started"></i> Not tested</span>
+                    <span><i class="mastery-dot learning"></i> Learning</span>
+                    <span><i class="mastery-dot strong"></i> Strong</span>
+                    <span><i class="mastery-dot mastered"></i> Mastered</span>
+                </div>
+            </section>
+
+            <section class="analysis-panel next-step-panel">
+                <div>
+                    <span class="page-kicker">YOUR NEXT STEP</span>
+                    <h3 id="analysisNextTitle">Build your baseline.</h3>
+                    <p id="analysisNextReason">Complete a session and the trainer will suggest your next move.</p>
+                </div>
+                <button type="button" class="analysis-primary-btn" id="analysisNextBtn">Start →</button>
+            </section>
+        </section>
+
+        <section class="review-page hidden" id="reviewPage">
+            <div class="review-head">
+                <button class="back-progress" id="backProgress" type="button">← Back to Analysis</button>
+                <span class="page-kicker">TARGETED REVIEW</span>
+                <h2>Fix the numbers you miss.</h2>
+                <p>Short, focused repetitions from your actual mistakes.</p>
+            </div>
+            <div class="review-card" id="reviewCard">
+                <div class="review-meta"><span id="reviewType">REVIEW</span><span id="reviewCount">1 / 5</span></div>
+                <div class="review-question" id="reviewQuestion">—</div>
+                <input id="reviewAnswer" type="number" inputmode="numeric" autocomplete="off" placeholder="Answer">
+                <button id="reviewCheck" type="button" class="review-check">Check answer</button>
+                <div id="reviewFeedback" class="review-feedback hidden"></div>
+                <button id="reviewNext" type="button" class="review-next hidden">Next →</button>
+            </div>
+        </section>
+
+        <button class="back-to-daily hidden" id="backToDaily" type="button">← Back to Daily Practice</button>
+        
+            <div class="practice-focusbar" id="practiceFocusbar">
+                <div>
+                    <span class="focus-label" id="focusLabel">RECALL MODE</span>
+                    <span class="focus-count" id="focusCount"></span>
+                </div>
+                <div class="practice-mode-switch" id="practiceModeSwitch">
+                    <button type="button" class="mode-btn active" data-mode="sheet">Sheet</button>
+                    <button type="button" class="mode-btn" data-mode="sprint">Sprint</button>
+                </div>
+                <button class="quiet-toggle" id="quietToggle" type="button">Focus mode</button>
+            </div>
+<section class="daily-sheet hidden" id="dailySheet">
+            <div class="sheet-header">
+                <div>
+                    <div class="sheet-eyebrow">DAILY RECALL</div>
+                    <h2 id="sheetTitle">Square Practice 10–40</h2>
+                    <p id="sheetSubtitle">Fill every square from memory. Check individually when ready.</p>
+                    <div class="session-context" id="sessionContext"></div>
+                </div>
+                <div class="sheet-goal">Goal: memorize the full set</div>
+            </div>
+            <div class="table-selector hidden" id="tableSelector">
+                <div class="table-selector-title">Choose a table</div>
+                <div class="table-list" id="tableList"></div>
+            </div>
+            <div class="sprint-area hidden" id="sprintArea">
+                <div class="sprint-progress"><span id="sprintProgressBar"></span></div>
+                <div class="sprint-counter"><span id="sprintCount">1 / 10</span><span id="sprintTime">0.0s</span></div>
+                <div class="sprint-question" id="sprintQuestion">27²</div>
+                <input class="sprint-answer" id="sprintAnswer" type="number" inputmode="numeric" autocomplete="off" placeholder="Your answer">
+                <button class="sprint-check" id="sprintCheck" type="button">Check answer</button>
+                <div class="sprint-feedback hidden" id="sprintFeedback"></div>
+                <button class="sprint-next hidden" id="sprintNext" type="button">Next →</button>
+            </div>
+            <div class="daily-grid" id="dailyGrid"></div>
+            <div class="daily-actions">
+                <button class="daily-submit" id="dailySubmit" type="button">Check All &amp; Finish Session</button>
+            </div>
+            <div class="daily-results hidden" id="dailyResults"></div>
+            <div class="daily-tip" id="dailyTip"></div>
+        </section>
+
+        <div class="difficulty-control" id="difficultyControl" style="display: none;">
+            <button class="diff-btn active" data-difficulty="easy">Easy</button>
+            <button class="diff-btn" data-difficulty="medium">Medium</button>
+            <button class="diff-btn" data-difficulty="hard">Hard</button>
+        </div>
+
+        <form class="form hidden" id="practiceForm">
+            <div class="question-box">
+                <div class="question" id="question">1² = ?</div>
+            </div>
+
+            <div class="pattern-panel hidden" id="patternPanel">
+                <div class="pattern-header">
+                    <div>
+                        <div class="pattern-eyebrow">SYSTEM REASONING</div>
+                        <div class="pattern-title" id="patternTitle">Pattern detected</div>
+                    </div>
+                    <div class="confidence" id="confidence">—</div>
+                </div>
+                <div class="pattern-reason" id="patternReason"></div>
+                <div class="visual-flow" id="visualFlow"></div>
+                <div class="why-box" id="whyBox"></div>
+            </div>
+
+            <input type="number" id="answer" placeholder="Enter answer" autocomplete="off">
+            <div class="feedback-box hidden" id="feedback"></div>
+            <div class="solution-box hidden" id="solutionBox"></div>
+            <button type="submit" id="submitBtn">Check</button>
+            <button type="button" class="next-btn hidden" id="nextBtn">Next</button>
+            <button type="button" class="solution-btn hidden" id="solutionBtn">Show Solution</button>
+        </form>
+
+        <div class="guide-section" id="guideSection">
+            <h2 style="margin-bottom: 20px; font-size: 24px;">Math Tricks & Techniques</h2>
+
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 20px; color: #0ea5e9; margin-bottom: 16px;">Squares</h3>
+
+                <div class="trick">
+                    <div class="trick-title">Ending in 5</div>
+                    <div class="trick-rule">Formula: (n5)² = n(n+1) × 100 + 25</div>
+                    <div class="example">
+                        <div class="example-step"><strong>15²</strong></div>
+                        <div class="example-step">n = 1, so multiply 1 × 2 = 2</div>
+                        <div class="example-step">Append 25: 2 → 225</div>
+                        <div class="example-result">15² = 225</div>
+                    </div>
+                    <div class="example">
+                        <div class="example-step"><strong>65²</strong></div>
+                        <div class="example-step">6 × 7 = 42, append 25</div>
+                        <div class="example-result">65² = 4225</div>
+                    </div>
+                </div>
+
+                <div class="trick">
+                    <div class="trick-title">Close to 50</div>
+                    <div class="trick-rule">Formula: (50±x)² = 2500 ± 100x + x²</div>
+                    <div class="example">
+                        <div class="example-step"><strong>48²</strong></div>
+                        <div class="example-step">x = 2, so: 2500 - (100×2) + 4</div>
+                        <div class="example-step">= 2500 - 200 + 4 = 2304</div>
+                        <div class="example-result">48² = 2304</div>
+                    </div>
+                    <div class="example">
+                        <div class="example-step"><strong>53²</strong></div>
+                        <div class="example-step">x = 3, so: 2500 + 300 + 9</div>
+                        <div class="example-result">53² = 2809</div>
+                    </div>
+                </div>
+
+                <div class="trick">
+                    <div class="trick-title">Close to 100</div>
+                    <div class="trick-rule">Formula: (100±x)² = 10000 ± 200x + x²</div>
+                    <div class="example">
+                        <div class="example-step"><strong>97²</strong></div>
+                        <div class="example-step">x = 3, so: 10000 - (200×3) + 9</div>
+                        <div class="example-step">= 10000 - 600 + 9 = 9409</div>
+                        <div class="example-result">97² = 9409</div>
+                    </div>
+                    <div class="example">
+                        <div class="example-step"><strong>102²</strong></div>
+                        <div class="example-step">x = 2, so: 10000 + 400 + 4</div>
+                        <div class="example-result">102² = 10404</div>
+                    </div>
+                </div>
+
+                <div class="trick">
+                    <div class="trick-title">Break into (a+b)² = a² + 2ab + b²</div>
+                    <div class="example">
+                        <div class="example-step"><strong>43²</strong></div>
+                        <div class="example-step">Break as (40+3)²</div>
+                        <div class="example-step">= 1600 + (2×40×3) + 9</div>
+                        <div class="example-step">= 1600 + 240 + 9 = 1849</div>
+                        <div class="example-result">43² = 1849</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 20px; color: #0ea5e9; margin-bottom: 16px;">Cubes</h3>
+
+                <div class="trick">
+                    <div class="trick-title">Ending in 5</div>
+                    <div class="trick-rule">Last digit is always 5. Find digit before 5, then use pattern.</div>
+                    <div class="example">
+                        <div class="example-step"><strong>15³</strong></div>
+                        <div class="example-step">Last digit = 5</div>
+                        <div class="example-step">15 × (15+1) × 50 = 15 × 16 × 50 / 8 = 3375</div>
+                        <div class="example-result">15³ = 3375</div>
+                    </div>
+                </div>
+
+                <div class="trick">
+                    <div class="trick-title">Break Down: (a+b)³ = a³ + 3a²b + 3ab² + b³</div>
+                    <div class="example">
+                        <div class="example-step"><strong>12³</strong></div>
+                        <div class="example-step">= (10+2)³</div>
+                        <div class="example-step">= 1000 + (3×100×2) + (3×10×4) + 8</div>
+                        <div class="example-step">= 1000 + 600 + 120 + 8 = 1728</div>
+                        <div class="example-result">12³ = 1728</div>
+                    </div>
+                </div>
+
+                <div class="trick">
+                    <div class="trick-title">Memorize Key Cubes</div>
+                    <div class="example">
+                        <div class="example-step">1³=1, 2³=8, 3³=27, 4³=64, 5³=125</div>
+                        <div class="example-step">6³=216, 7³=343, 8³=512, 9³=729, 10³=1000</div>
+                        <div class="example-step">These help you estimate and verify answers</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 20px; color: #0ea5e9; margin-bottom: 16px;">Multiplication</h3>
+
+                <div class="trick">
+                    <div class="trick-title">Multiply by 11</div>
+                    <div class="trick-rule">Add the two digits and insert between them</div>
+                    <div class="example">
+                        <div class="example-step"><strong>23 × 11</strong></div>
+                        <div class="example-step">2 + 3 = 5, insert: 2|5|3</div>
+                        <div class="example-result">23 × 11 = 253</div>
+                    </div>
+                    <div class="example">
+                        <div class="example-step"><strong>47 × 11</strong></div>
+                        <div class="example-step">4 + 7 = 11 (carry 1): 4+1|1|7</div>
+                        <div class="example-result">47 × 11 = 517</div>
+                    </div>
+                </div>
+
+                <div class="trick">
+                    <div class="trick-title">Close to Powers of 10</div>
+                    <div class="trick-rule">Use (a-x)(b-y) = ab - ay - bx + xy</div>
+                    <div class="example">
+                        <div class="example-step"><strong>98 × 97</strong></div>
+                        <div class="example-step">(100-2)(100-3)</div>
+                        <div class="example-step">= 10000 - 300 - 200 + 6 = 9506</div>
+                        <div class="example-result">98 × 97 = 9506</div>
+                    </div>
+                    <div class="example">
+                        <div class="example-step"><strong>103 × 107</strong></div>
+                        <div class="example-step">(100+3)(100+7)</div>
+                        <div class="example-step">= 10000 + 700 + 300 + 21 = 11021</div>
+                        <div class="example-result">103 × 107 = 11021</div>
+                    </div>
+                </div>
+
+                <div class="trick">
+                    <div class="trick-title">Same Tens, Complementary Units (sum to 10)</div>
+                    <div class="trick-rule">42 × 48 = (4×5)|(2×8) = 20|16 → 2016</div>
+                    <div class="example">
+                        <div class="example-step"><strong>32 × 38</strong></div>
+                        <div class="example-step">Tens: 3, units: 2+8=10</div>
+                        <div class="example-step">(3×4) = 12, (2×8) = 16 → 1216</div>
+                        <div class="example-result">32 × 38 = 1216</div>
+                    </div>
+                    <div class="example">
+                        <div class="example-step"><strong>61 × 69</strong></div>
+                        <div class="example-step">(6×7) = 42, (1×9) = 09 → 4209</div>
+                        <div class="example-result">61 × 69 = 4209</div>
+                    </div>
+                </div>
+
+                <div class="trick">
+                    <div class="trick-title">Vedic Method (Urdhva Tiryagbhyam)</div>
+                    <div class="trick-rule">Cross-multiply and cascade results</div>
+                    <div class="example">
+                        <div class="example-step"><strong>23 × 14</strong></div>
+                        <div class="example-step">Left: (2×1)=2</div>
+                        <div class="example-step">Middle: (2×4)+(3×1)=11</div>
+                        <div class="example-step">Right: (3×4)=12</div>
+                        <div class="example-step">Combine: 2|11|12 with carries → 322</div>
+                        <div class="example-result">23 × 14 = 322</div>
+                    </div>
+                </div>
+
+                <div class="trick">
+                    <div class="trick-title">Multiply Numbers Ending in 5</div>
+                    <div class="trick-rule">(a5)(b5) = (a×b + ⌊(a+b)/2⌋)|25</div>
+                    <div class="example">
+                        <div class="example-step"><strong>25 × 35</strong></div>
+                        <div class="example-step">(2×3) + ⌊(2+3)/2⌋ = 6 + 2 = 8</div>
+                        <div class="example-step">Append 75: 875</div>
+                        <div class="example-result">25 × 35 = 875</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+                <div style="font-size: 16px; color: #cbd5e1; margin-bottom: 12px;">💡 <strong>Pro Tips for Exams:</strong></div>
+                <ul style="margin-left: 20px; color: #cbd5e1; line-height: 1.6;">
+                    <li>Master squares 1-30 and all ending-in-5 patterns</li>
+                    <li>Learn the 11× trick cold—it's the fastest</li>
+                    <li>Use "close to 100" for 2-digit numbers</li>
+                    <li>Break hard problems into (a±b)² or (a±b)³</li>
+                    <li>Vedic method is powerful but takes practice</li>
+                    <li>Start with easy tricks, layer in harder ones</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="stats" id="practiceStats">
+            <div class="stat">
+                <div class="stat-label">Correct</div>
+                <div class="stat-value" id="correct">0</div>
+            </div>
+            <button class="reset-btn" id="resetBtn">↻ Reset</button>
+        </div>
+    </div>
+
+    
+    <script>
+        let currentTab = 'daily';
+        let dailyType = 'squares';
+        let selectedTable = 10;
+        let difficulty = 'medium';
+        let question = null;
+        let streak = 0;
+        let totalCorrect = 0;
+        let multiplicationQuestionStart = Date.now();
+
+        const tabButtons = document.querySelectorAll('.tab');
+        const diffButtons = document.querySelectorAll('.diff-btn');
+        const resetBtn = document.getElementById('resetBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const solutionBtn = document.getElementById('solutionBtn');
+        const answerInput = document.getElementById('answer');
+        const difficultyControl = document.getElementById('difficultyControl');
+        const patternPanel = document.getElementById('patternPanel');
+        const dailySheet = document.getElementById('dailySheet');
+        const dailyDashboard = document.getElementById('dailyDashboard');
+        const backToDaily = document.getElementById('backToDaily');
+        const dailyGrid = document.getElementById('dailyGrid');
+
+        document.getElementById('brandHome').addEventListener('click', (event) => {
+            event.preventDefault();
+            const dailyTab = document.querySelector('.tab[data-tab="daily"]');
+            if (dailyTab) dailyTab.click();
+        });
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTab = btn.dataset.tab;
+                updatePracticeOnlyUI();
+
+                const practiceForm = document.getElementById('practiceForm');
+                const guideSection = document.getElementById('guideSection');
+
+                if (currentTab === 'daily') {
+                    document.getElementById('dailyOptions').style.display = 'grid';
+                    dailyDashboard.classList.remove('hidden');
+                    dailySheet.classList.add('hidden');
+                    backToDaily.classList.add('hidden');
+                    practiceForm.classList.add('hidden');
+                    practiceForm.style.display = 'none';
+                    difficultyControl.style.display = 'none';
+                    guideSection.classList.remove('active');
+                    document.getElementById('progressPage').classList.add('hidden');
+                    document.getElementById('reviewPage').classList.add('hidden');
+                    updateDailyDashboard();
+                } else if (currentTab === 'analysis') {
+                    document.getElementById('dailyOptions').style.display = 'none';
+                    dailyDashboard.classList.add('hidden');
+                    dailySheet.classList.add('hidden');
+                    backToDaily.classList.add('hidden');
+                    practiceForm.classList.add('hidden');
+                    practiceForm.style.display = 'none';
+                    difficultyControl.style.display = 'none';
+                    guideSection.classList.remove('active');
+                    document.getElementById('progressPage').classList.remove('hidden');
+                    document.getElementById('reviewPage').classList.add('hidden');
+                    updateProgressPage();
+                } else if (currentTab === 'guide') {
+                    document.getElementById('dailyOptions').style.display = 'none';
+                    dailyDashboard.classList.add('hidden');
+                    dailySheet.classList.add('hidden');
+                    backToDaily.classList.add('hidden');
+                    practiceForm.classList.add('hidden');
+                    practiceForm.style.display = 'none';
+                    difficultyControl.style.display = 'none';
+                    guideSection.classList.add('active');
+                    document.getElementById('progressPage').classList.add('hidden');
+                    document.getElementById('reviewPage').classList.add('hidden');
+                } else {
+                    document.getElementById('dailyOptions').style.display = 'none';
+                    dailyDashboard.classList.add('hidden');
+                    dailySheet.classList.add('hidden');
+                    backToDaily.classList.add('hidden');
+                    practiceForm.classList.remove('hidden');
+                    practiceForm.style.display = 'flex';
+                    difficultyControl.style.display = 'flex';
+                    guideSection.classList.remove('active');
+                    document.getElementById('progressPage').classList.add('hidden');
+                    document.getElementById('reviewPage').classList.add('hidden');
+                    generateQuestion();
+                    clearAnswer();
+                    answerInput.focus();
+                }
+            });
+        });
+
+        document.querySelectorAll('.daily-option').forEach(btn => {
+            btn.addEventListener('click', () => openDailyPractice(btn.dataset.daily));
+        });
+
+        backToDaily.addEventListener('click', returnToDailyDashboard);
+
+        diffButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                diffButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                difficulty = btn.dataset.difficulty;
+                generateQuestion();
+                clearAnswer();
+            });
+        });
+
+        resetBtn.addEventListener('click', () => {
+            streak = 0;
+            totalCorrect = 0;
+            updateStats();
+            clearAnswer();
+            generateQuestion();
+        });
+
+        function rand(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateSquareQuestion() {
+            // Bias toward recognizable mental-math patterns.
+            const patterns = difficulty === 'easy'
+                ? ['ending5', 'near50']
+                : difficulty === 'medium'
+                    ? ['ending5', 'near50', 'near100', 'general']
+                    : ['ending5', 'near50', 'near100', 'general', 'general'];
+
+            const p = patterns[rand(0, patterns.length - 1)];
+            let num;
+            if (p === 'ending5') num = rand(1, 8) * 10 + 5;
+            else if (p === 'near50') num = rand(47, 53);
+            else if (p === 'near100') num = rand(90, 110);
+            else num = rand(10, 40);
+
+            return { type: 'square', num, answer: num * num };
+        }
+
+        function generateCubeQuestion() {
+            const num = difficulty === 'easy' ? rand(1, 10) : difficulty === 'medium' ? rand(1, 15) : rand(1, 20);
+            return { type: 'cube', num, answer: num ** 3 };
+        }
+
+        function generateMultiplicationQuestion() {
+            const patterns = difficulty === 'easy'
+                ? ['x11', 'x25', 'x5']
+                : difficulty === 'medium'
+                    ? ['x11', 'near100', 'sameTens', 'x25', 'x125', 'x9']
+                    : ['x11', 'near100', 'sameTens', 'x25', 'x125', 'x99', 'ending5', 'differenceSquares'];
+
+            const p = patterns[rand(0, patterns.length - 1)];
+            let a, b;
+
+            if (p === 'x11') {
+                a = rand(12, 99); b = 11;
+            } else if (p === 'x25') {
+                a = rand(4, 80); b = 25;
+            } else if (p === 'x5') {
+                a = rand(11, 80); b = 5;
+            } else if (p === 'x125') {
+                a = rand(2, 40); b = 125;
+            } else if (p === 'x9') {
+                a = rand(11, 80); b = 9;
+            } else if (p === 'x99') {
+                a = rand(11, 80); b = 99;
+            } else if (p === 'near100') {
+                a = rand(92, 108);
+                b = rand(92, 108);
+            } else if (p === 'sameTens') {
+                const tens = rand(2, 8);
+                const u = rand(1, 4);
+                a = tens * 10 + u;
+                b = tens * 10 + (10 - u);
+            } else if (p === 'ending5') {
+                a = rand(2, 8) * 10 + 5;
+                b = rand(2, 8) * 10 + 5;
+            } else {
+                const m = rand(3, 9);
+                const x = rand(1, 5);
+                a = m * 10 + x;
+                b = m * 10 - x;
+            }
+
+            return { type: 'multiply', a, b, answer: a * b };
+        }
+
+        function generateQuestion() {
+            multiplicationQuestionStart = Date.now();
+            if (currentTab === 'squares') {
+                question = generateSquareQuestion();
+                document.getElementById('question').textContent = `${question.num}² = ?`;
+            } else if (currentTab === 'cubes') {
+                question = generateCubeQuestion();
+                document.getElementById('question').textContent = `${question.num}³ = ?`;
+            } else {
+                question = generateMultiplicationQuestion();
+                document.getElementById('question').textContent = `${question.a} × ${question.b} = ?`;
+            }
+            patternPanel.classList.add('hidden');
+        }
+
+        let dailySessionStart = Date.now();
+        let dailySessionSubmitted = false;
+
+        function dailyAnswer(n) {
+            if (dailyType === 'squares') return n * n;
+            if (dailyType === 'cubes') return n * n * n;
+            return null;
+        }
+
+
+        function getDailySessions() {
+            const square = readSavedSession('mentalMathDaily_squares');
+            const cube = readSavedSession('mentalMathDaily_cubes');
+            const tables = [];
+            for (let t = 10; t <= 30; t++) {
+                const s = readSavedSession(`mentalMathDaily_table_${t}`);
+                if (s) tables.push({table:t, ...s});
+            }
+            return {square, cube, tables};
+        }
+
+        function getRecommendation() {
+            const {square, cube, tables} = getDailySessions();
+
+            if (!square) return {
+                type:'squares', title:'Squares 10–40',
+                reason:'Start with the core recall set. Your first session creates the baseline.'
+            };
+            if (!cube) return {
+                type:'cubes', title:'Cubes 1–25',
+                reason:'Your squares baseline is ready. Add cubes to broaden recall.'
+            };
+
+            const weakSquare = square.accuracy < 90;
+            const weakCube = cube.accuracy < 90;
+            if (weakSquare) return {
+                type:'squares', title:'Squares 10–40',
+                reason:`Bring your ${square.accuracy}% recall above 90% before chasing speed.`
+            };
+            if (weakCube) return {
+                type:'cubes', title:'Cubes 1–25',
+                reason:`Cubes are at ${cube.accuracy}%. A short refresher will strengthen recall.`
+            };
+
+            if (tables.length < 21) {
+                const practiced = new Set(tables.map(x => x.table));
+                const next = Array.from({length:21},(_,i)=>i+10).find(t => !practiced.has(t));
+                return {
+                    type:'tables', table:next, title:`Table ${next}`,
+                    reason:`Your core recall is strong. Add another table to your rotation.`
+                };
+            }
+
+            const weakest = [...tables].sort((a,b)=>a.accuracy-b.accuracy)[0];
+            return {
+                type:'tables', table:weakest.table, title:`Table ${weakest.table}`,
+                reason:`This is currently your weakest table at ${weakest.accuracy}%.`
+            };
+        }
+
+        function updateLearningDashboard() {
+            const rec = getRecommendation();
+            const title = document.getElementById('recommendationTitle');
+            const reason = document.getElementById('recommendationReason');
+            const action = document.getElementById('recommendationAction');
+            if (title) title.textContent = rec.title;
+            if (reason) reason.textContent = rec.reason;
+            if (action) {
+                action.textContent = rec.type === 'tables' ? `Practice ${rec.table} →` : 'Start →';
+                action.onclick = () => {
+                    openDailyPractice(rec.type);
+                    if (rec.type === 'tables' && rec.table) {
+                        selectedTable = rec.table;
+                        renderSelectedTable();
+                        renderTableSelector();
+                    }
+                };
+            }
+
+            const todayTarget = document.getElementById('todayTarget');
+            const todayMessage = document.getElementById('todayMessage');
+            const today = new Date().toISOString().slice(0,10);
+            let minutes = 0;
+            const {square,cube,tables} = getDailySessions();
+            [square,cube,...tables].forEach(s => {
+                if (s && s.timestamp && s.timestamp.slice(0,10) === today) minutes += (s.timeMs || 0)/60000;
+            });
+            minutes = Math.min(10, Math.round(minutes*10)/10);
+            if (todayTarget) todayTarget.textContent = `${minutes} / 10 min`;
+            if (todayMessage) {
+                todayMessage.textContent = minutes >= 10
+                    ? 'Daily target complete. Nice work.'
+                    : minutes > 0
+                        ? `${Math.max(0, Math.round((10-minutes)*10)/10)} min left today.`
+                        : 'A short session is enough.';
+            }
+        }
+
+        function updateFocusBar() {
+            const label = document.getElementById('focusLabel');
+            const count = document.getElementById('focusCount');
+            if (!label || !count) return;
+            if (dailyType === 'squares') {
+                label.textContent = 'RECALL MODE';
+                count.textContent = 'Squares · 10–40';
+            } else if (dailyType === 'cubes') {
+                label.textContent = 'RECALL MODE';
+                count.textContent = 'Cubes · 1–25';
+            } else {
+                label.textContent = 'TABLE RECALL';
+                count.textContent = `Table ${selectedTable} · ×1–×10`;
+            }
+        }
+
+        function readSavedSession(key) {
+            try { return JSON.parse(localStorage.getItem(key) || 'null'); }
+            catch { return null; }
+        }
+
+        function updateDailyDashboard() {
+            const square = readSavedSession('mentalMathDaily_squares');
+            const cube = readSavedSession('mentalMathDaily_cubes');
+
+            const tableSessions = [];
+            for (let t = 10; t <= 30; t++) {
+                const s = readSavedSession(`mentalMathDaily_table_${t}`);
+                if (s) tableSessions.push({table:t, ...s});
+            }
+
+            const squareStat = document.getElementById('homeSquareStat');
+            const cubeStat = document.getElementById('homeCubeStat');
+            const tableStat = document.getElementById('homeTableStat');
+            const squareProgress = document.getElementById('squareProgress');
+            const cubeProgress = document.getElementById('cubeProgress');
+            const tableProgress = document.getElementById('tableProgress');
+            const insight = document.getElementById('homeInsight');
+
+            if (square) {
+                squareStat.textContent = `${square.accuracy}% • ${formatDuration(square.timeMs)}`;
+                squareProgress.textContent = `Last: ${square.accuracy}% • ${formatDuration(square.timeMs)}`;
+            } else {
+                squareStat.textContent = 'Not started';
+                squareProgress.textContent = 'Start session';
+            }
+
+            if (cube) {
+                cubeStat.textContent = `${cube.accuracy}% • ${formatDuration(cube.timeMs)}`;
+                cubeProgress.textContent = `Last: ${cube.accuracy}% • ${formatDuration(cube.timeMs)}`;
+            } else {
+                cubeStat.textContent = 'Not started';
+                cubeProgress.textContent = 'Start session';
+            }
+
+            if (tableSessions.length) {
+                const best = tableSessions.reduce((a,b) => b.accuracy > a.accuracy ? b : a);
+                tableStat.textContent = `${tableSessions.length}/21 • best ${best.accuracy}%`;
+                tableProgress.textContent = `${tableSessions.length}/21 tables practiced`;
+            } else {
+                tableStat.textContent = 'Not started';
+                tableProgress.textContent = 'Choose a table';
+            }
+
+            updateLearningDashboard();
+
+            if (square && cube) {
+                const candidates = [
+                    {name:'Squares', current:square},
+                    {name:'Cubes', current:cube}
+                ];
+                const improving = candidates.find(x => x.current.accuracy >= 90);
+                insight.textContent = improving
+                    ? `Strong recall: ${improving.name} is at ${improving.current.accuracy}%. Try to beat your previous time next.`
+                    : 'Keep building recall accuracy first. Once you are consistently above 90%, push your speed.';
+            } else {
+                insight.textContent = 'Complete a session to build your baseline. Your next attempt will be compared automatically.';
+            }
+        }
+
+        function updatePracticeOnlyUI() {
+            const isMultiplication = currentTab === 'multiply';
+            const streakDisplay = document.getElementById('streakDisplay');
+            if (streakDisplay) streakDisplay.style.display = 'flex';
+            document.getElementById('practiceStats').style.display = isMultiplication ? 'flex' : 'none';
+        }
+
+        function showPreviousDailyContext(key) {
+            const context = document.getElementById('sessionContext');
+            if (!context) return;
+
+            let previous = null;
+            try { previous = JSON.parse(localStorage.getItem(key) || 'null'); } catch {}
+
+            if (!previous) {
+                context.textContent = 'First session — your result will become the baseline.';
+                return;
+            }
+
+            context.textContent =
+                `Previous: ${previous.accuracy}% accuracy • ${formatDuration(previous.timeMs)} • ${previous.right}/${previous.total} correct`;
+        }
+
+        function openDailyPractice(type) {
+            dailyType = type;
+            dailyDashboard.classList.add('hidden');
+            dailySheet.classList.remove('hidden');
+            backToDaily.classList.remove('hidden');
+            document.querySelectorAll('.daily-option').forEach(b => b.classList.toggle('active', b.dataset.daily === type));
+            renderDailySheet();
+        }
+
+        function returnToDailyDashboard() {
+            dailySheet.classList.add('hidden');
+            backToDaily.classList.add('hidden');
+            dailyDashboard.classList.remove('hidden');
+            updateDailyDashboard();
+        }
+
+
+        document.getElementById('quietToggle').addEventListener('click', () => {
+            document.body.classList.toggle('quiet-mode');
+            document.getElementById('quietToggle').classList.toggle('active');
+        });
+
+        function renderDailySheet() {
+            dailySessionStart = Date.now();
+            dailySessionSubmitted = false;
+            document.body.classList.remove('quiet-mode');
+            document.getElementById('quietToggle').classList.remove('active');
+            updateFocusBar();
+            setDailyMode('sheet');
+            document.getElementById('practiceModeSwitch').style.display = dailyType === 'tables' ? 'none' : 'flex';
+
+            const results = document.getElementById('dailyResults');
+            results.classList.add('hidden');
+            results.innerHTML = '';
+
+            const selector = document.getElementById('tableSelector');
+
+            if (dailyType === 'tables') {
+                selector.classList.remove('hidden');
+                renderTableSelector();
+                renderSelectedTable();
+                document.getElementById('dailySubmit').style.display = 'none';
+                document.getElementById('dailySubmit').disabled = false;
+                return;
+            }
+
+            selector.classList.add('hidden');
+            document.getElementById('dailySubmit').style.display = 'inline-block';
+            document.getElementById('dailySubmit').disabled = false;
+            document.getElementById('dailySubmit').textContent = 'Check All & Finish Session';
+
+            const isSquare = dailyType === 'squares';
+            const start = isSquare ? 10 : 1;
+            const end = isSquare ? 40 : 25;
+            const sup = isSquare ? '2' : '3';
+
+            document.getElementById('sheetTitle').textContent =
+                isSquare ? 'Square Practice 10–40' : 'Cube Practice 1–25';
+            document.getElementById('sheetSubtitle').textContent =
+                'Recall the complete set from memory. Submit once when you finish.';
+            showPreviousDailyContext(`mentalMathDaily_${dailyType}`);
+            document.getElementById('dailyTip').innerHTML =
+                isSquare
+                    ? '<strong>Quick tip:</strong> Do the whole sheet without checking. Squares ending in 5 always end in 25.'
+                    : '<strong>Quick tip:</strong> Recall in blocks of five. Do not check individual answers while practicing.';
+
+            const nums = Array.from({length:end-start+1}, (_,i)=>start+i);
+            buildRecallGrid(nums, sup, isSquare ? 'Square' : 'Cube');
+        }
+
+        function renderTableSelector() {
+            const list = document.getElementById('tableList');
+            list.innerHTML = '';
+
+            for (let table = 10; table <= 30; table++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'table-choice' + (table === selectedTable ? ' active' : '');
+                btn.textContent = table;
+                btn.addEventListener('click', () => {
+                    selectedTable = table;
+                    document.querySelectorAll('.table-choice').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderSelectedTable();
+                });
+                list.appendChild(btn);
+            }
+        }
+
+        function renderSelectedTable() {
+            dailySessionStart = Date.now();
+            dailySessionSubmitted = false;
+
+            const results = document.getElementById('dailyResults');
+            results.classList.add('hidden');
+            results.innerHTML = '';
+
+            document.getElementById('sheetTitle').textContent = `Table of ${selectedTable}`;
+            document.getElementById('sheetSubtitle').textContent =
+                `Practice ${selectedTable} × 1 to × 10. Enter all answers, then check the table.`;
+            showPreviousDailyContext(`mentalMathDaily_table_${selectedTable}`);
+            document.getElementById('dailyTip').innerHTML =
+                `<strong>Quick tip:</strong> Say the table aloud while entering it. Aim for automatic recall rather than calculation.`;
+
+            dailyGrid.innerHTML = '';
+            dailyGrid.classList.remove('recall-grid');
+
+            const heading = document.createElement('div');
+            heading.className = 'selected-table-heading';
+            heading.textContent = `×1 to ×10`;
+            dailyGrid.appendChild(heading);
+
+            for (let m = 1; m <= 10; m++) {
+                const row = document.createElement('div');
+                row.className = 'daily-row';
+                row.innerHTML =
+                    `<div class="daily-number">${selectedTable} × ${m} =</div>` +
+                    `<input class="daily-answer table-answer" type="number" inputmode="numeric" data-table="${selectedTable}" data-multiplier="${m}">`;
+                dailyGrid.appendChild(row);
+            }
+
+            const checkRow = document.createElement('div');
+            checkRow.className = 'table-check-row';
+            checkRow.innerHTML =
+                `<button class="table-check-all" id="selectedTableCheck" type="button">Check Table ${selectedTable}</button>` +
+                `<span class="table-status" id="selectedTableStatus"></span>`;
+            dailyGrid.appendChild(checkRow);
+
+            document.getElementById('selectedTableCheck').addEventListener('click', checkSelectedTable);
+        }
+
+        function buildRecallGrid(nums, sup, label) {
+            dailyGrid.innerHTML = '';
+            dailyGrid.classList.add('recall-grid');
+
+            const left = nums.slice(0, Math.ceil(nums.length / 2));
+            const right = nums.slice(Math.ceil(nums.length / 2));
+
+            function makeColumn(numbers) {
+                const column = document.createElement('div');
+                column.className = 'recall-column';
+
+                const header = document.createElement('div');
+                header.className = 'daily-row header-row';
+                header.innerHTML = '<div>Number</div><div>'+label+'</div><div></div>';
+                column.appendChild(header);
+
+                numbers.forEach(n => {
+                    const row = document.createElement('div');
+                    row.className = 'daily-row';
+                    row.innerHTML =
+                        '<div class="daily-number">'+n+'<sup>'+sup+'</sup> =</div>' +
+                        '<input class="daily-answer" type="number" inputmode="numeric" data-number="'+n+'">' +
+                        '<div></div>';
+                    column.appendChild(row);
+                });
+
+                return column;
+            }
+
+            dailyGrid.appendChild(makeColumn(left));
+            dailyGrid.appendChild(makeColumn(right));
+        }
+
+        function checkSelectedTable() {
+            if (dailySessionSubmitted) return;
+
+            const inputs = [...dailyGrid.querySelectorAll('.table-answer')];
+            const elapsed = Date.now() - dailySessionStart;
+            let right = 0;
+
+            inputs.forEach(input => {
+                const m = Number(input.dataset.multiplier);
+                const ok = Number(input.value) === selectedTable * m;
+                input.classList.toggle('correct', ok);
+                input.classList.toggle('wrong', !ok);
+                if (ok) right++;
+            });
+
+            const wrong = inputs.length - right;
+            const accuracy = Math.round((right / inputs.length) * 100);
+            const key = `mentalMathDaily_table_${selectedTable}`;
+
+            let previous = null;
+            try { previous = JSON.parse(localStorage.getItem(key) || 'null'); } catch {}
+
+            const session = {
+                timestamp: new Date().toISOString(),
+                timeMs: elapsed,
+                right,
+                wrong,
+                total: inputs.length,
+                accuracy
+            };
+
+            localStorage.setItem(key, JSON.stringify(session));
+            recordHistory('tables',{...session,table:selectedTable},inputs.map(input=>({input,answer:selectedTable*Number(input.dataset.multiplier),label:`${selectedTable} × ${input.dataset.multiplier}`})));
+            dailySessionSubmitted = true;
+            updateDailyDashboard();
+
+            const btn = document.getElementById('selectedTableCheck');
+            btn.disabled = true;
+            btn.textContent = `✓ Table ${selectedTable} Checked`;
+
+            const status = document.getElementById('selectedTableStatus');
+            status.textContent = `${right}/10 correct`;
+            status.style.color = wrong === 0 ? '#34d399' : '#f87171';
+
+            renderTableResults(session, previous, inputs);
+        }
+
+        function renderTableResults(session, previous, inputs) {
+            const results = document.getElementById('dailyResults');
+            let comparison = 'No previous session for this table yet — this is your baseline.';
+
+            if (previous) {
+                const timeDelta = session.timeMs - previous.timeMs;
+                const accuracyDelta = session.accuracy - previous.accuracy;
+                const faster = timeDelta < 0;
+                comparison =
+                    `Compared with your previous Table ${selectedTable} session: ` +
+                    `<strong>${faster ? 'faster' : 'slower'}</strong> by ${Math.abs(Math.round(timeDelta/1000))}s ` +
+                    `and accuracy ${accuracyDelta >= 0 ? 'improved' : 'dropped'} by ${Math.abs(accuracyDelta)} percentage point${Math.abs(accuracyDelta) === 1 ? '' : 's'}.`;
+            }
+
+            const rows = inputs.map(input => {
+                const m = Number(input.dataset.multiplier);
+                const answer = selectedTable * m;
+                const ok = Number(input.value) === answer;
+                return `<div class="daily-solution ${ok ? '' : 'wrong'}">
+                    <span>${selectedTable} × ${m} = ${ok ? 'Correct' : 'Your answer: '+(input.value || 'blank')}</span>
+                    <span class="answer">${answer}</span>
+                </div>`;
+            }).join('');
+
+            results.innerHTML = `
+                <div class="result-head">
+                    <div class="result-title">Table ${selectedTable} Analysis</div>
+                    <div class="result-time">${formatDuration(session.timeMs)}</div>
+                </div>
+                <div class="result-cards">
+                    <div class="result-card"><div class="result-card-label">Correct</div><div class="result-card-value result-good">${session.right}</div></div>
+                    <div class="result-card"><div class="result-card-label">Wrong</div><div class="result-card-value result-bad">${session.wrong}</div></div>
+                    <div class="result-card"><div class="result-card-label">Accuracy</div><div class="result-card-value">${session.accuracy}%</div></div>
+                    <div class="result-card"><div class="result-card-label">Time</div><div class="result-card-value">${formatDuration(session.timeMs)}</div></div>
+                </div>
+                <div class="comparison">${comparison}</div><div class="comparison">${comparison}</div>
+                <div class="next-target"><strong>Next target:</strong> ${session.accuracy >= 90 ? `try to beat ${formatDuration(session.timeMs)} next time.` : `repeat this set until you reach 90%+ accuracy.`}</div>
+                <div class="next-target"><strong>Next target:</strong> ${session.accuracy >= 90 ? `beat ${formatDuration(session.timeMs)} while keeping ${session.accuracy}%+ accuracy.` : `repeat Table ${selectedTable} until you reach 90%+ accuracy.`}</div>
+                <div class="solution-summary">
+                    <div class="solution-summary-title">Solutions</div>
+                    ${rows}
+                </div>
+                <div class="session-note">Your result is saved separately for Table ${selectedTable}, so your next attempt can be compared accurately.</div>
+            `;
+            results.classList.remove('hidden');
+        }
+
+
+        function getDailyItems() {
+            if (dailyType === 'tables') {
+                return [...dailyGrid.querySelectorAll('.table-answer')].map(input => ({
+                    input,
+                    answer: Number(input.dataset.table) * Number(input.dataset.multiplier),
+                    label: `${input.dataset.table} × ${input.dataset.multiplier}`
+                }));
+            }
+            return [...dailyGrid.querySelectorAll('.daily-answer')].map(input => {
+                const n = Number(input.dataset.number);
+                return {
+                    input,
+                    answer: dailyAnswer(n),
+                    label: `${n}${dailyType === 'squares' ? '²' : '³'}`
+                };
+            });
+        }
+
+        function formatDuration(ms) {
+            const sec = Math.max(1, Math.round(ms / 1000));
+            const min = Math.floor(sec / 60);
+            const s = sec % 60;
+            return min ? `${min}m ${String(s).padStart(2,'0')}s` : `${s}s`;
+        }
+
+        function getSessionKey() {
+            return `mentalMathDaily_${dailyType}`;
+        }
+
+        /* =========================================================
+           LEARNING ENGINE: history, weak spots, mastery
+           ========================================================= */
+        function safeJson(key, fallback) {
+            try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+            catch { return fallback; }
+        }
+
+        function writeJson(key, value) {
+            try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+        }
+
+        function recordHistory(kind, session, items) {
+            const key = `mentalMathHistory_${kind}`;
+            const history = safeJson(key, []);
+            history.push({...session, kind});
+            writeJson(key, history.slice(-30));
+
+            const weak = safeJson('mentalMathWeakSpots', {});
+            items.forEach(item => {
+                const id = `${kind}:${item.label}`;
+                const ok = Number(item.input?.value) === item.answer;
+                if (!weak[id]) weak[id] = {kind, label:item.label, answer:item.answer, misses:0, attempts:0, last:0};
+                weak[id].attempts++;
+                weak[id].last = Date.now();
+                if (!ok) weak[id].misses++;
+                else weak[id].misses = Math.max(0, weak[id].misses - 1);
+            });
+            writeJson('mentalMathWeakSpots', weak);
+        }
+
+        function getAllHistory() {
+            const out = [];
+            ['squares','cubes','tables'].forEach(kind => {
+                safeJson(`mentalMathHistory_${kind}`, []).forEach(s => out.push(s));
+            });
+            return out.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+        }
+
+        function masteryFor(session, history) {
+            if (!session) return {level:'Learning', score:0, meta:'No sessions yet'};
+            const h = history.filter(x => x.kind === session.kind).slice(-5);
+            const avg = h.reduce((s,x)=>s+x.accuracy,0)/(h.length||1);
+            const consistent = h.length >= 3 && h.slice(-3).every(x=>x.accuracy >= 90);
+            const level = consistent && avg >= 95 ? 'Mastered' : h.length >= 2 && avg >= 90 ? 'Strong' : avg >= 75 ? 'Practicing' : 'Learning';
+            return {level, score:Math.round(avg), meta:`${h.length} session${h.length===1?'':'s'} · ${Math.round(avg)}% avg`};
+        }
+
+        
+let analysisRange = 7;
+
+function analysisFilteredHistory(days = analysisRange) {
+    const all = getAllHistory();
+    const now = Date.now();
+    const cutoff = now - days * 86400000;
+    return all.filter(s => new Date(s.timestamp).getTime() >= cutoff).sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
+}
+
+function analysisSkillStats(history, kind) {
+    const h = history.filter(s => s.kind === kind);
+    if (!h.length) return null;
+    const total = h.reduce((a,s)=>a+(s.total||1),0);
+    const correct = h.reduce((a,s)=>a+(s.right||0),0);
+    const time = h.reduce((a,s)=>a+(s.timeMs||0),0);
+    return {
+        accuracy: Math.round(correct / total * 100),
+        avgSec: time / total / 1000,
+        sessions: h.length,
+        correct, total
+    };
+}
+
+function analysisStatus(stat) {
+    if (!stat) return ['Not started','new'];
+    if (stat.accuracy >= 95 && stat.sessions >= 3) return ['Mastered','mastered'];
+    if (stat.accuracy >= 90 && stat.sessions >= 2) return ['Strong','strong'];
+    if (stat.accuracy >= 75) return ['Practicing','practicing'];
+    return ['Learning','learning'];
+}
+
+function formatAnalysisTime(ms) {
+    if (!ms) return '—';
+    return formatDuration(ms);
+}
+
+function masteryState(entry) {
+    if (!entry || !entry.attempts) return 'not-started';
+    const accuracy = (entry.attempts - entry.misses) / entry.attempts * 100;
+    if (entry.attempts >= 5 && accuracy >= 95) return 'mastered';
+    if (entry.attempts >= 3 && accuracy >= 90) return 'strong';
+    if (accuracy >= 70) return 'learning';
+    return 'learning';
+}
+
+function renderMasteryMap(containerId, kind, start, end, suffix) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    const weak = safeJson('mentalMathWeakSpots', {});
+    const cells = [];
+    let mastered = 0, attempted = 0;
+
+    for (let n=start; n<=end; n++) {
+        const key = `${kind}:${n}${suffix}`;
+        const entry = weak[key];
+        const state = masteryState(entry);
+        if (entry?.attempts) attempted++;
+        if (state === 'mastered') mastered++;
+
+        const label = suffix ? `${n}${suffix}` : `${n}`;
+        const detail = entry
+            ? `${entry.attempts} attempts · ${entry.misses} misses`
+            : 'Not tested yet';
+        cells.push(`<div class="mastery-cell ${state}" title="${detail}">
+            ${label}<span class="mastery-tip">${detail}</span>
+        </div>`);
+    }
+    el.innerHTML = cells.join('');
+    return {attempted, mastered, total:end-start+1};
+}
+
+function renderTableMastery() {
+    const el = document.getElementById('tableMasteryMap');
+    if (!el) return;
+    const weak = safeJson('mentalMathWeakSpots', {});
+    let attempted=0, mastered=0;
+    const cells=[];
+    for(let t=10;t<=30;t++){
+        const entries=Object.values(weak).filter(x=>x.kind==='tables' && x.label.startsWith(`${t} ×`));
+        const attempts=entries.reduce((a,x)=>a+(x.attempts||0),0);
+        const misses=entries.reduce((a,x)=>a+(x.misses||0),0);
+        const accuracy=attempts ? (attempts-misses)/attempts*100 : 0;
+        let state='not-started';
+        if(attempts){attempted++; state=attempts>=5&&accuracy>=95?'mastered':attempts>=3&&accuracy>=90?'strong':'learning';}
+        if(state==='mastered') mastered++;
+        cells.push(`<div class="mastery-cell ${state}" title="${attempts?`${Math.round(accuracy)}% · ${attempts} attempts`:'Not tested yet'}">
+            ${t}<span class="mastery-tip">${attempts?`${Math.round(accuracy)}% · ${attempts} attempts`:'Not tested yet'}</span>
+        </div>`);
+    }
+    el.innerHTML=cells.join('');
+    return {attempted, mastered, total:21};
+}
+
+function renderSkillBreakdown(history) {
+    const el=document.getElementById('skillBreakdown');
+    if(!el) return;
+    const defs=[
+        ['Squares','squares'],['Cubes','cubes'],['Tables','tables'],['Multiplication','multiplication']
+    ];
+    el.innerHTML=`<div class="skill-row skill-head"><span>Skill</span><span>Accuracy</span><span>Speed</span><span>Status</span></div>`+
+        defs.map(([name,kind])=>{
+            const stat=analysisSkillStats(history,kind);
+            const [status,cls]=analysisStatus(stat);
+            return `<div class="skill-row">
+                <span class="skill-name">${name}</span>
+                <span class="skill-accuracy">${stat?stat.accuracy+'%':'—'}</span>
+                <span class="skill-speed">${stat?stat.avgSec.toFixed(1)+'s':'—'}</span>
+                <span class="skill-status status-${cls}">${status}</span>
+            </div>`;
+        }).join('');
+}
+
+function renderAnalysisWeakSpots() {
+    const all = safeJson('mentalMathWeakSpots', {});
+    const cutoff = Date.now() - analysisRange*86400000;
+    const weak = Object.values(all)
+        .filter(x => x.misses > 0 && (!x.last || x.last >= cutoff))
+        .sort((a,b)=>b.misses-a.misses || b.last-a.last)
+        .slice(0,5);
+
+    const list=document.getElementById('weakSpotsList');
+    if(!list) return;
+    list.innerHTML=weak.length
+        ? weak.map((x,i)=>`<div class="weak-item">
+            <div><strong>${x.label}</strong><small>${x.misses} miss${x.misses===1?'':'es'} · answer ${x.answer}</small></div>
+            <button type="button" data-review-index="${i}">Review</button>
+        </div>`).join('')
+        : `<div class="empty-state">No recurring mistakes in this period. Keep going.</div>`;
+    window.__weakReviewItems=weak;
+}
+
+function renderAnalysisHistory(history) {
+    const el=document.getElementById('sessionHistory');
+    if(!el) return;
+    const list=[...history].sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).slice(0,7);
+    el.innerHTML=list.length ? list.map(s=>{
+        const name=s.kind==='squares'?'Squares':s.kind==='cubes'?'Cubes':s.kind==='multiplication'?'Multiplication':`Table ${s.table||''}`;
+        return `<div class="history-item">
+            <span><span class="history-name">${name}</span><small>${new Date(s.timestamp).toLocaleDateString(undefined,{month:'short',day:'numeric'})} · ${formatDuration(s.timeMs)}</small></span>
+            <span class="history-score">${s.accuracy}%</span>
+        </div>`;
+    }).join('') : `<div class="empty-state">Finish a session to start your history.</div>`;
+}
+
+function renderAnalysisTrend(history) {
+    const chart=document.getElementById('trendChart');
+    const count=document.getElementById('trendCount');
+    const summary=document.getElementById('trendSummary');
+    if(!chart) return;
+    const list=history.slice(-12);
+    if(count) count.textContent=`${history.length} session${history.length===1?'':'s'}`;
+    if(!list.length){
+        chart.innerHTML='<div class="analysis-empty">Complete a session to see your trend.</div>';
+        if(summary) summary.textContent='Build your baseline';
+        return;
+    }
+    chart.innerHTML=list.map(s=>{
+        const d=new Date(s.timestamp);
+        const label=d.toLocaleDateString(undefined,{month:'short',day:'numeric'});
+        return `<div class="analysis-bar-wrap">
+            <div class="analysis-bar" style="height:${Math.max(8,Math.min(100,s.accuracy))}%">
+                <span>${s.accuracy}%</span>
+            </div>
+            <div class="analysis-bar-label">${label}</div>
+        </div>`;
+    }).join('');
+    if(summary && list.length>=2){
+        const first=list[0], last=list[list.length-1];
+        const delta=last.accuracy-first.accuracy;
+        summary.textContent=`${delta>=0?'↑':'↓'} ${Math.abs(delta)} pts across selected period`;
+    } else if(summary) summary.textContent='Build your baseline';
+}
+
+function updateAnalysisSnapshot() {
+    const all=getAllHistory();
+    const todayKey=new Date().toLocaleDateString();
+    const today=all.filter(s=>new Date(s.timestamp).toLocaleDateString()===todayKey);
+    const time=today.reduce((a,s)=>a+(s.timeMs||0),0);
+    const total=today.reduce((a,s)=>a+(s.total||1),0);
+    const correct=today.reduce((a,s)=>a+(s.right||0),0);
+    const accuracy=total?Math.round(correct/total*100):0;
+
+    const set=(id,value)=>{const e=document.getElementById(id);if(e)e.textContent=value;};
+    set('analysisTodayTime',time?formatAnalysisTime(time):'—');
+    set('analysisTodayAccuracy',today.length?accuracy+'%':'—');
+    set('analysisTodaySpeed',total?(time/total/1000).toFixed(1)+'s':'—');
+    set('analysisTodayCorrect',today.length?`${correct} / ${total}`:'—');
+}
+
+function updateAnalysisNextStep(history) {
+    const weak=Object.values(safeJson('mentalMathWeakSpots',{}))
+        .filter(x=>x.misses>0)
+        .sort((a,b)=>b.misses-a.misses||b.last-a.last);
+    let title='Build your baseline.';
+    let reason='Complete a session and the trainer will suggest your next move.';
+    let action=()=>document.querySelector('.tab[data-tab="daily"]')?.click();
+
+    if(weak.length){
+        const x=weak[0];
+        title=`Review ${x.label}`;
+        reason=`You've missed it ${x.misses} time${x.misses===1?'':'s'}. A short targeted review is more useful than another full set.`;
+        action=()=>openReview([x]);
+    } else {
+        const cube=analysisSkillStats(history,'cubes');
+        const square=analysisSkillStats(history,'squares');
+        if(!square){title='Start with Squares 10–40.';reason='Build the core recall baseline first.';action=()=>openDailyPractice('squares');}
+        else if(!cube){title='Add Cubes 1–25.';reason='Your squares baseline is ready. Broaden recall next.';action=()=>openDailyPractice('cubes');}
+        else if(cube.accuracy<90){title='Strengthen Cubes.';reason=`Cubes are at ${cube.accuracy}%. Repeat recall before chasing speed.`;action=()=>openDailyPractice('cubes');}
+        else {title='Push your speed.';reason='Your recall is strong. Use Sprint mode to make it automatic.';action=()=>openDailyPractice('squares');}
+    }
+    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+    set('analysisNextTitle',title);set('analysisNextReason',reason);
+    const btn=document.getElementById('analysisNextBtn');if(btn)btn.onclick=action;
+}
+
+function updateProgressPage() {
+    const history=analysisFilteredHistory(analysisRange);
+    const allHistory=getAllHistory();
+    updateAnalysisSnapshot();
+    renderAnalysisTrend(history);
+    renderSkillBreakdown(allHistory.filter(s=>new Date(s.timestamp).getTime()>=Date.now()-30*86400000));
+    renderAnalysisWeakSpots();
+    renderAnalysisHistory(history);
+
+    const sq=renderMasteryMap('squareMasteryMap','squares',10,40,'²');
+    const cu=renderMasteryMap('cubeMasteryMap','cubes',1,25,'³');
+    const tb=renderTableMastery();
+    const total=(sq?.total||0)+(cu?.total||0)+(tb?.total||0);
+    const mastered=(sq?.mastered||0)+(cu?.mastered||0)+(tb?.mastered||0);
+    const overall=total?Math.round(mastered/total*100):0;
+    const overallEl=document.getElementById('masteryOverall');
+    if(overallEl) overallEl.textContent=overall+'%';
+
+    updateAnalysisNextStep(allHistory);
+}
+
+function saveSession(data) {
+            localStorage.setItem(getSessionKey(), JSON.stringify(data));
+            const kind=dailyType==='squares'?'squares':dailyType==='cubes'?'cubes':'tables';
+            const items=getDailyItems();
+            recordHistory(kind,{...data,table:dailyType==='tables'?selectedTable:undefined},items);
+        }
+
+        function loadPreviousSession() {
+            try { return JSON.parse(localStorage.getItem(getSessionKey()) || 'null'); }
+            catch { return null; }
+        }
+
+        function checkAllDaily() {
+            if (dailySessionSubmitted) return;
+
+            const items = getDailyItems();
+            const elapsed = Date.now() - dailySessionStart;
+            let right = 0;
+
+            items.forEach(item => {
+                const ok = Number(item.input.value) === item.answer;
+                item.input.classList.toggle('correct', ok);
+                item.input.classList.toggle('wrong', !ok);
+                if (ok) right++;
+            });
+
+            const wrong = items.length - right;
+            const accuracy = items.length ? Math.round((right / items.length) * 100) : 0;
+            const previous = loadPreviousSession();
+
+            const session = {
+                timestamp: new Date().toISOString(),
+                timeMs: elapsed,
+                right,
+                wrong,
+                total: items.length,
+                accuracy
+            };
+            saveSession(session);
+            dailySessionSubmitted = true;
+            updateDailyDashboard();
+
+            document.getElementById('dailySubmit').disabled = true;
+            document.getElementById('dailySubmit').textContent = 'Session Completed';
+            renderDailyResults(session, previous, items);
+        }
+
+        function renderDailyResults(session, previous, items) {
+            const results = document.getElementById('dailyResults');
+            const timeText = formatDuration(session.timeMs);
+
+            let comparison = 'No previous session yet — this is your baseline.';
+            if (previous) {
+                const timeDelta = session.timeMs - previous.timeMs;
+                const accuracyDelta = session.accuracy - previous.accuracy;
+                const faster = timeDelta < 0;
+                const timePhrase = Math.abs(Math.round(timeDelta / 1000));
+                comparison =
+                    `Compared with your previous session: ` +
+                    `<strong>${faster ? 'faster' : 'slower'}</strong> by ${timePhrase}s ` +
+                    `and accuracy ${accuracyDelta >= 0 ? 'improved' : 'dropped'} by ${Math.abs(accuracyDelta)} percentage point${Math.abs(accuracyDelta) === 1 ? '' : 's'}.`;
+            }
+
+            const solutionRows = items.map(item => {
+                const ok = Number(item.input.value) === item.answer;
+                return `<div class="daily-solution ${ok ? '' : 'wrong'}">
+                    <span>${item.label} = ${ok ? 'Correct' : 'Your answer: '+(item.input.value || 'blank')}</span>
+                    <span class="answer">${item.answer}</span>
+                </div>`;
+            }).join('');
+
+            results.innerHTML = `
+                <div class="result-head">
+                    <div class="result-title">Session Analysis</div>
+                    <div class="result-time">${timeText}</div>
+                </div>
+                <div class="result-cards">
+                    <div class="result-card"><div class="result-card-label">Correct</div><div class="result-card-value result-good">${session.right}</div></div>
+                    <div class="result-card"><div class="result-card-label">Wrong</div><div class="result-card-value result-bad">${session.wrong}</div></div>
+                    <div class="result-card"><div class="result-card-label">Accuracy</div><div class="result-card-value">${session.accuracy}%</div></div>
+                    <div class="result-card"><div class="result-card-label">Time</div><div class="result-card-value">${timeText}</div></div>
+                </div>
+                <div class="comparison">${comparison}</div>
+                <div class="solution-summary">
+                    <div class="solution-summary-title">Solutions</div>
+                    ${solutionRows}
+                </div>
+                <div class="session-note">Your latest result is saved in this browser so the next session can be compared automatically.</div>
+            `;
+            results.classList.remove('hidden');
+            results.scrollIntoView({behavior:'smooth', block:'nearest'});
+        }
+
+
+        function renderDailyResults(session, previous, items) {
+            const results = document.getElementById('dailyResults');
+            const timeText = formatDuration(session.timeMs);
+            const accuracyDelta = previous ? session.accuracy - previous.accuracy : 0;
+            const timeDelta = previous ? session.timeMs - previous.timeMs : 0;
+            const comparison = previous
+                ? `${timeDelta <= 0 ? 'Faster' : 'Slower'} by ${Math.abs(Math.round(timeDelta/1000))}s · accuracy ${accuracyDelta >= 0 ? 'up' : 'down'} ${Math.abs(accuracyDelta)} pts.`
+                : 'First session — this result becomes your baseline.';
+
+            const misses = items.filter(item=>Number(item.input.value)!==item.answer);
+            const weakText = misses.length
+                ? misses.slice(0,6).map(item=>`<span class="mistake-chip">${item.label}</span>`).join('')
+                : '<span class="all-correct-note">Nothing to review — excellent recall.</span>';
+            const solutionRows = items.map(item=>{
+                const ok=Number(item.input.value)===item.answer;
+                return `<div class="daily-solution ${ok?'':'wrong'}"><span>${item.label} · ${ok?'Correct':'Needs review'}</span><span class="answer">${item.answer}</span></div>`;
+            }).join('');
+
+            const next = session.accuracy>=95
+                ? `Keep accuracy above 95% and try a Sprint for speed.`
+                : session.accuracy>=90
+                    ? `Repeat the set once more, then aim to beat ${timeText}.`
+                    : `Review the missed numbers before your next full set.`;
+
+            results.innerHTML=`
+                <div class="result-head"><div class="result-title">Session complete</div><div class="result-time">${timeText}</div></div>
+                <div class="result-hero-score"><strong>${session.right}/${session.total}</strong><span>${session.accuracy}% accuracy</span></div>
+                <div class="result-cards">
+                    <div class="result-card"><div class="result-card-label">Correct</div><div class="result-card-value result-good">${session.right}</div></div>
+                    <div class="result-card"><div class="result-card-label">Wrong</div><div class="result-card-value result-bad">${session.wrong}</div></div>
+                    <div class="result-card"><div class="result-card-label">Avg / item</div><div class="result-card-value">${(session.timeMs/session.total/1000).toFixed(1)}s</div></div>
+                    <div class="result-card"><div class="result-card-label">Change</div><div class="result-card-value">${previous?(accuracyDelta>=0?'+':'')+accuracyDelta+' pts':'Baseline'}</div></div>
+                </div>
+                <div class="comparison">${comparison}</div>
+                <div class="result-section"><div class="result-section-title">Needs another look</div><div class="mistake-chips">${weakText}</div></div>
+                <div class="next-target"><strong>Next session:</strong> ${next}</div>
+                <details class="solution-details"><summary>Show all solutions</summary><div class="solution-summary">${solutionRows}</div></details>
+                <div class="session-note">Your score, timing, history and weak spots are saved on this device.</div>`;
+            results.classList.remove('hidden');
+            results.scrollIntoView({behavior:'smooth',block:'nearest'});
+            updateProgressPage();
+        }
+
+        document.getElementById('dailySubmit').addEventListener('click', checkAllDaily);
+
+
+
+        /* ---------- Sprint mode ---------- */
+        let dailyMode = 'sheet';
+        let sprintIndex = 0;
+        let sprintItems = [];
+        let sprintStart = 0;
+        let sprintResults = [];
+
+        function setDailyMode(mode) {
+            dailyMode=mode;
+            document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+            const grid=document.getElementById('dailyGrid'), actions=document.querySelector('.daily-actions'), sprint=document.getElementById('sprintArea');
+            const supported=dailyType!=='tables';
+            if(!supported && mode==='sprint') { dailyMode='sheet'; return; }
+            grid.classList.toggle('hidden',mode==='sprint');
+            actions.classList.toggle('hidden',mode==='sprint');
+            sprint.classList.toggle('hidden',mode!=='sprint');
+            if(mode==='sprint') startSprint();
+        }
+
+        function startSprint() {
+            const max=dailyType==='squares'?40:25, min=dailyType==='squares'?10:1;
+            sprintItems=Array.from({length:10},()=>rand(min,max));
+            sprintIndex=0;sprintResults=[];sprintStart=Date.now();
+            showSprintQuestion();
+        }
+
+        function showSprintQuestion() {
+            const n=sprintItems[sprintIndex];
+            const q=dailyType==='squares'?`${n}²`:`${n}³`;
+            document.getElementById('sprintQuestion').textContent=q;
+            document.getElementById('sprintCount').textContent=`${sprintIndex+1} / ${sprintItems.length}`;
+            document.getElementById('sprintProgressBar').style.width=`${(sprintIndex/sprintItems.length)*100}%`;
+            document.getElementById('sprintTime').textContent='0.0s';
+            document.getElementById('sprintAnswer').value='';
+            document.getElementById('sprintFeedback').className='sprint-feedback hidden';
+            document.getElementById('sprintNext').classList.add('hidden');
+            document.getElementById('sprintCheck').classList.remove('hidden');
+            document.getElementById('sprintAnswer').disabled=false;
+            document.getElementById('sprintAnswer').focus();
+        }
+
+        function finishSprint() {
+            const elapsed=Date.now()-sprintStart, right=sprintResults.filter(x=>x.ok).length, total=sprintItems.length;
+            const session={timestamp:new Date().toISOString(),timeMs:elapsed,right,wrong:total-right,total,accuracy:Math.round(right/total*100),mode:'sprint'};
+            const items=sprintItems.map((n,i)=>({label:`${n}${dailyType==='squares'?'²':'³'}`,answer:dailyType==='squares'?n*n:n*n*n,input:{value:sprintResults[i].value}}));
+            const key=`mentalMathDaily_${dailyType}_sprint`;
+            const prev=safeJson(key,null);writeJson(key,session);
+            const histKey=`mentalMathHistory_${dailyType}`;const h=safeJson(histKey,[]);h.push({...session,kind:dailyType,mode:'sprint'});writeJson(histKey,h.slice(-30));
+            const weak=safeJson('mentalMathWeakSpots',{});
+            items.forEach((it,i)=>{const id=`${dailyType}:${it.label}`;if(!weak[id])weak[id]={kind:dailyType,label:it.label,answer:it.answer,misses:0,attempts:0,last:0};weak[id].attempts++;weak[id].last=Date.now();if(!sprintResults[i].ok)weak[id].misses++;else weak[id].misses=Math.max(0,weak[id].misses-1)});writeJson('mentalMathWeakSpots',weak);
+            const results=document.getElementById('dailyResults');
+            const delta=prev?`Compared with last sprint: ${session.accuracy>=prev.accuracy?'accuracy improved':'accuracy changed'} by ${Math.abs(session.accuracy-prev.accuracy)} pts.`:'First sprint — baseline created.';
+            results.innerHTML=`<div class="result-head"><div class="result-title">Sprint Analysis</div><div class="result-time">${formatDuration(elapsed)}</div></div>
+            <div class="result-cards"><div class="result-card"><div class="result-card-label">Correct</div><div class="result-card-value result-good">${right}</div></div><div class="result-card"><div class="result-card-label">Accuracy</div><div class="result-card-value">${session.accuracy}%</div></div><div class="result-card"><div class="result-card-label">Avg / item</div><div class="result-card-value">${(elapsed/total/1000).toFixed(1)}s</div></div></div>
+            <div class="comparison">${delta}</div><div class="next-target"><strong>Next target:</strong> ${session.accuracy>=90?'Keep accuracy above 90% and shave time.':'Repeat the sprint until recall is above 90%.'}</div>`;
+            results.classList.remove('hidden');results.scrollIntoView({behavior:'smooth',block:'nearest'});
+            updateProgressPage();updateDailyDashboard();
+        }
+
+        document.getElementById('sprintCheck').addEventListener('click',()=>{
+            const n=sprintItems[sprintIndex], value=Number(document.getElementById('sprintAnswer').value);
+            const answer=dailyType==='squares'?n*n:n*n*n, ok=value===answer;
+            sprintResults[sprintIndex]={ok,value};
+            const fb=document.getElementById('sprintFeedback');
+            fb.className=`sprint-feedback ${ok?'ok':'bad'}`;
+            fb.textContent=ok?`✓ Correct — ${answer}`:`✗ Answer: ${answer}`;
+            document.getElementById('sprintAnswer').disabled=true;
+            document.getElementById('sprintCheck').classList.add('hidden');
+            document.getElementById('sprintNext').classList.remove('hidden');
+            document.getElementById('sprintProgressBar').style.width=`${((sprintIndex+1)/sprintItems.length)*100}%`;
+        });
+        document.getElementById('sprintNext').addEventListener('click',()=>{
+            if(sprintIndex<sprintItems.length-1){sprintIndex++;showSprintQuestion()}else finishSprint();
+        });
+        document.getElementById('sprintAnswer').addEventListener('keydown',e=>{if(e.key==='Enter'&&!document.getElementById('sprintCheck').classList.contains('hidden'))document.getElementById('sprintCheck').click()});
+        document.querySelectorAll('.mode-btn').forEach(btn=>btn.addEventListener('click',()=>setDailyMode(btn.dataset.mode)));
+
+        // ---------------- PATTERN RECOGNITION ENGINE ----------------
+
+        function detectPattern(q) {
+            if (q.type === 'square') {
+                const n = q.num;
+                if (n % 10 === 5) {
+                    const k = Math.floor(n / 10);
+                    return {
+                        name: 'Ending in 5',
+                        confidence: 'HIGH',
+                        reason: `The number ends in 5, so the fastest route is k × (k + 1), then append 25.`,
+                        why: 'This avoids a full multiplication. The pattern is deterministic whenever a square ends in 5.',
+                        nodes: [
+                            ['INPUT', `${n}²`],
+                            ['DETECT', `${k}5`],
+                            ['CORE', `${k} × ${k + 1} = ${k * (k + 1)}`],
+                            ['APPEND', `${k * (k + 1)}25`]
+                        ]
+                    };
+                }
+                if (n >= 47 && n <= 53) {
+                    const x = n - 50;
+                    return {
+                        name: 'Close to 50',
+                        confidence: 'HIGH',
+                        reason: `${n} is only ${Math.abs(x)} away from 50, so use (50 ± x)².`,
+                        why: '50² is an easy anchor (2500), and the remaining correction is small.',
+                        nodes: [
+                            ['INPUT', `${n}²`],
+                            ['ANCHOR', `50 ${x >= 0 ? '+' : '−'} ${Math.abs(x)}`],
+                            ['FORMULA', `2500 ${x >= 0 ? '+' : '−'} ${100 * Math.abs(x)} + ${x*x}`],
+                            ['ANSWER', `${q.answer}`]
+                        ]
+                    };
+                }
+                if (n >= 90 && n <= 110) {
+                    const x = n - 100;
+                    return {
+                        name: 'Close to 100',
+                        confidence: 'HIGH',
+                        reason: `${n} is close to 100, so use (100 ± x)² instead of long multiplication.`,
+                        why: '100² = 10,000 and the correction only involves 200x and x².',
+                        nodes: [
+                            ['INPUT', `${n}²`],
+                            ['ANCHOR', `100 ${x >= 0 ? '+' : '−'} ${Math.abs(x)}`],
+                            ['FORMULA', `10000 ${x >= 0 ? '+' : '−'} ${200*Math.abs(x)} + ${x*x}`],
+                            ['ANSWER', `${q.answer}`]
+                        ]
+                    };
+                }
+                const a = Math.floor(n / 10) * 10;
+                const b = n - a;
+                return {
+                    name: 'Break into tens + units',
+                    confidence: 'MEDIUM',
+                    reason: `${n} is not in a special range, so decompose it as ${a} + ${b}.`,
+                    why: 'The identity (a+b)² = a² + 2ab + b² turns one multiplication into three simple pieces.',
+                    nodes: [
+                        ['INPUT', `${n}²`],
+                        ['DECOMPOSE', `${a} + ${b}`],
+                        ['EXPAND', `${a*a} + ${2*a*b} + ${b*b}`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            if (q.type === 'cube') {
+                const n = q.num;
+                if (n <= 20) {
+                    return {
+                        name: 'Known cube / memory anchor',
+                        confidence: 'HIGH',
+                        reason: `${n}³ is within the core memorization range 1–20.`,
+                        why: 'For exam speed, a memorized cube is faster than reconstructing it every time.',
+                        nodes: [
+                            ['INPUT', `${n}³`],
+                            ['LOOK UP', `Known cube`],
+                            ['VERIFY', `${n} × ${n} × ${n}`],
+                            ['ANSWER', `${q.answer}`]
+                        ]
+                    };
+                }
+                const a = Math.floor(n / 10) * 10;
+                const b = n - a;
+                return {
+                    name: 'Binomial cube',
+                    confidence: 'MEDIUM',
+                    reason: `${n} can be decomposed as ${a} + ${b}, making (a+b)³ usable.`,
+                    why: 'The cubic identity converts the calculation into four structured terms.',
+                    nodes: [
+                        ['INPUT', `${n}³`],
+                        ['DECOMPOSE', `${a} + ${b}`],
+                        ['EXPAND', `${a**3} + ${3*a*a*b} + ${3*a*b*b} + ${b**3}`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            const a = q.a, b = q.b;
+
+            if (b === 11 || a === 11) {
+                const n = b === 11 ? a : b;
+                const tens = Math.floor(n / 10), units = n % 10;
+                const sum = tens + units;
+                return {
+                    name: 'Multiply by 11',
+                    confidence: 'HIGH',
+                    reason: `One factor is 11. Add adjacent digits and place the sum between them.`,
+                    why: '×11 has a positional pattern that replaces ordinary multiplication for two-digit numbers.',
+                    nodes: [
+                        ['INPUT', `${n} × 11`],
+                        ['DIGITS', `${tens} | ${units}`],
+                        ['MIDDLE', `${tens} + ${units} = ${sum}`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            if (b === 25 || a === 25) {
+                const n = b === 25 ? a : b;
+                return {
+                    name: 'Multiply by 25',
+                    confidence: 'HIGH',
+                    reason: `One factor is 25, which is 100 ÷ 4.`,
+                    why: 'Convert multiplication into a simple multiply-by-100 followed by division by 4.',
+                    nodes: [
+                        ['INPUT', `${n} × 25`],
+                        ['CONVERT', `${n} × 100 ÷ 4`],
+                        ['EASY PART', `${n*100} ÷ 4`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            if (b === 125 || a === 125) {
+                const n = b === 125 ? a : b;
+                return {
+                    name: 'Multiply by 125',
+                    confidence: 'HIGH',
+                    reason: `125 = 1000 ÷ 8.`,
+                    why: 'Turn the multiplication into ×1000 and divide by 8.',
+                    nodes: [
+                        ['INPUT', `${n} × 125`],
+                        ['CONVERT', `${n} × 1000 ÷ 8`],
+                        ['EASY PART', `${n*1000} ÷ 8`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            if (b === 5 || a === 5) {
+                const n = b === 5 ? a : b;
+                return {
+                    name: 'Multiply by 5',
+                    confidence: 'HIGH',
+                    reason: `One factor is 5, which is 10 ÷ 2.`,
+                    why: 'Multiply by 10 and halve instead of doing long multiplication.',
+                    nodes: [
+                        ['INPUT', `${n} × 5`],
+                        ['CONVERT', `${n} × 10 ÷ 2`],
+                        ['EASY PART', `${n*10} ÷ 2`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            if (b === 9 || a === 9) {
+                const n = b === 9 ? a : b;
+                return {
+                    name: 'Multiply by 9',
+                    confidence: 'HIGH',
+                    reason: `One factor is 9, so use ×10 − the number.`,
+                    why: '9 is one less than 10, making subtraction faster than multiplication.',
+                    nodes: [
+                        ['INPUT', `${n} × 9`],
+                        ['CONVERT', `${n} × 10 − ${n}`],
+                        ['CALCULATE', `${n*10} − ${n}`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            if (b === 99 || a === 99) {
+                const n = b === 99 ? a : b;
+                return {
+                    name: 'Multiply by 99',
+                    confidence: 'HIGH',
+                    reason: `One factor is 99, so use ×100 − the number.`,
+                    why: '99 is one less than 100, making the operation almost immediate.',
+                    nodes: [
+                        ['INPUT', `${n} × 99`],
+                        ['CONVERT', `${n} × 100 − ${n}`],
+                        ['CALCULATE', `${n*100} − ${n}`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            if (a >= 90 && a <= 110 && b >= 90 && b <= 110) {
+                const x = a - 100, y = b - 100;
+                return {
+                    name: 'Base-100 multiplication',
+                    confidence: 'HIGH',
+                    reason: `Both numbers are close to 100: ${a}=100${x>=0?'+':'−'}${Math.abs(x)}, ${b}=100${y>=0?'+':'−'}${Math.abs(y)}.`,
+                    why: 'A common base makes the cross-adjustment and small product much faster than long multiplication.',
+                    nodes: [
+                        ['INPUT', `${a} × ${b}`],
+                        ['DEVIATIONS', `${x} and ${y}`],
+                        ['CROSS', `${a} ${y>=0?'+':'−'} ${Math.abs(y)} = ${a+y}`],
+                        ['TAIL', `${Math.abs(x)} × ${Math.abs(y)} = ${Math.abs(x*y)}`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            const at = Math.floor(a/10), au = a%10;
+            const bt = Math.floor(b/10), bu = b%10;
+            if (at === bt && au + bu === 10) {
+                return {
+                    name: 'Same tens + complementary units',
+                    confidence: 'HIGH',
+                    reason: `Both numbers have tens digit ${at}, and their units add to 10.`,
+                    why: 'For (10a+b)(10a+10-b), the result splits neatly into a(a+1) and b(10-b).',
+                    nodes: [
+                        ['INPUT', `${a} × ${b}`],
+                        ['TENS', `${at} × ${at+1} = ${at*(at+1)}`],
+                        ['UNITS', `${au} × ${bu} = ${au*bu}`],
+                        ['JOIN', `${at*(at+1)} | ${String(au*bu).padStart(2,'0')}`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            if (a % 10 === 5 && b % 10 === 5) {
+                const x = Math.floor(a/10), y = Math.floor(b/10);
+                return {
+                    name: 'Both numbers end in 5',
+                    confidence: 'HIGH',
+                    reason: 'Both factors end in 5, so use a 25-tail decomposition rather than ordinary multiplication.',
+                    why: 'Each number can be written as 10x+5; expanding gives a simple integer part followed by 25.',
+                    nodes: [
+                        ['INPUT', `${a} × ${b}`],
+                        ['DECOMPOSE', `(${x}×10+5)(${y}×10+5)`],
+                        ['CORE', `${10*x*y + 5*x + 5*y}`],
+                        ['TAIL', `25`],
+                        ['ANSWER', `${q.answer}`]
+                    ]
+                };
+            }
+
+            if (a + b === 100 || Math.abs(a-b) <= 10 && Math.floor(a/10) === Math.floor(b/10)) {
+                // Difference-of-squares is particularly useful for symmetric numbers.
+                const mid = (a+b)/2;
+                const d = Math.abs(a-b)/2;
+                if (Number.isInteger(mid) && Number.isInteger(d)) {
+                    return {
+                        name: 'Difference of squares',
+                        confidence: 'MEDIUM',
+                        reason: `${a} and ${b} are symmetric around ${mid}, so use (m+d)(m-d)=m²-d².`,
+                        why: 'Two multiplications collapse into one square minus one small square.',
+                        nodes: [
+                            ['INPUT', `${a} × ${b}`],
+                            ['CENTER', `${mid}²`],
+                            ['GAP', `${d}²`],
+                            ['SUBTRACT', `${mid*mid} − ${d*d}`],
+                            ['ANSWER', `${q.answer}`]
+                        ]
+                    };
+                }
+            }
+
+            return {
+                name: 'Distributive multiplication',
+                confidence: 'MEDIUM',
+                reason: 'No stronger special pattern was detected, so split one factor into easy parts.',
+                why: 'A reliable fallback is a(b+c)=ab+ac; speed comes from choosing a convenient decomposition.',
+                nodes: [
+                    ['INPUT', `${a} × ${b}`],
+                    ['DECOMPOSE', `${b} = ${Math.floor(b/10)*10} + ${b%10}`],
+                    ['PART 1', `${a} × ${Math.floor(b/10)*10}`],
+                    ['PART 2', `${a} × ${b%10}`],
+                    ['ANSWER', `${q.answer}`]
+                ]
+            };
+        }
+
+        function renderPattern(showAnswer = false) {
+            if (!question) return;
+            const p = detectPattern(question);
+            patternPanel.classList.remove('hidden');
+
+            document.getElementById('patternTitle').textContent = p.name;
+            document.getElementById('confidence').textContent = p.confidence;
+            document.getElementById('patternReason').innerHTML =
+                `<span class="pattern-chip">WHY THIS TRICK?</span>${p.reason}`;
+
+            const flow = document.getElementById('visualFlow');
+            flow.innerHTML = '';
+            p.nodes.forEach((node, i) => {
+                const box = document.createElement('div');
+                box.className = 'flow-node';
+                box.innerHTML = `<div class="flow-label">${node[0]}</div><div class="flow-value">${node[1]}</div>`;
+                flow.appendChild(box);
+
+                if (i < p.nodes.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'flow-arrow';
+                    arrow.textContent = '→';
+                    flow.appendChild(arrow);
+                }
+            });
+
+            document.getElementById('whyBox').innerHTML =
+                `<strong>System rule:</strong> ${p.why}`;
+        }
+
+        // ---------------- ANSWER / FEEDBACK ----------------
+
+        function clearAnswer() {
+            answerInput.value = '';
+            answerInput.classList.remove('correct', 'wrong');
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('solutionBox').classList.add('hidden');
+            submitBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            solutionBtn.classList.add('hidden');
+            patternPanel.classList.add('hidden');
+        }
+
+        function updateStats() {
+            document.getElementById('streak').textContent = streak;
+            document.getElementById('correct').textContent = totalCorrect;
+        }
+
+        document.getElementById('practiceForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!question) return;
+
+            const userAnswer = Number(answerInput.value);
+            const isCorrect = userAnswer === question.answer;
+            const multiplicationElapsed = Date.now() - multiplicationQuestionStart;
+            const multiplicationItem = {
+                input: { value: String(userAnswer) },
+                answer: question.answer,
+                label: `${question.a} × ${question.b}`
+            };
+            recordHistory('multiplication', {
+                timestamp: new Date().toISOString(),
+                timeMs: multiplicationElapsed,
+                right: isCorrect ? 1 : 0,
+                wrong: isCorrect ? 0 : 1,
+                total: 1,
+                accuracy: isCorrect ? 100 : 0
+            }, [multiplicationItem]);
+            const feedback = document.getElementById('feedback');
+
+            if (isCorrect) {
+                answerInput.classList.add('correct');
+                feedback.className = 'feedback-box feedback-correct';
+                feedback.textContent = '✓ Correct — pattern recognized!';
+                streak++;
+                totalCorrect++;
+                updateStats();
+                submitBtn.classList.add('hidden');
+                solutionBtn.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+                patternPanel.classList.add('hidden');
+                document.getElementById('solutionBox').classList.add('hidden');
+            } else {
+                answerInput.classList.add('wrong');
+                feedback.className = 'feedback-box feedback-wrong';
+                feedback.textContent = '✗ Not quite. Try again, or reveal the solution when you are ready.';
+                solutionBtn.classList.remove('hidden');
+                patternPanel.classList.add('hidden');
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            generateQuestion();
+            clearAnswer();
+            answerInput.focus();
+        });
+
+        solutionBtn.addEventListener('click', () => {
+            const p = detectPattern(question);
+            renderPattern(true);
+            const solutionBox = document.getElementById('solutionBox');
+
+            let html = `
+                <div class="solution-title">✓ Pattern-Based Solution</div>
+                <div class="trick-name">${p.name}</div>
+                <div class="solution-method">
+            `;
+
+            p.nodes.forEach((node, i) => {
+                html += `
+                    <div class="step">
+                        <div class="step-num">${i + 1}</div>
+                        <div class="step-text"><strong>${node[0]}</strong>: <span class="step-code">${node[1]}</span></div>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="final-answer">
+                    <div class="final-answer-label">ANSWER</div>
+                    <div class="final-answer-value">${question.answer}</div>
+                </div>
+                </div>
+                <div class="solution-toggle-note">The system chose <strong>${p.name}</strong> because of the pattern shown above.</div>
+            `;
+
+            solutionBox.innerHTML = html;
+            solutionBox.classList.remove('hidden');
+            solutionBtn.classList.add('hidden');
+        });
+
+        answerInput.addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                document.getElementById('practiceForm').requestSubmit();
+            }
+        });
+
+
+        document.querySelectorAll('[data-open-calculation="multiply"]').forEach(btn=>{
+            btn.addEventListener('click',()=>{
+                const tab=document.querySelector('.tab[data-tab="multiply"]');
+                if(tab) tab.click();
+            });
+        });
+
+        /* ---------- Review mistakes ---------- */
+        let reviewItems=[],reviewIndex=0;
+        function openReview(items) {
+            reviewItems=items||window.__weakReviewItems||[];
+            if(!reviewItems.length){alert('No recurring mistakes yet. Finish a few sessions first.');return;}
+            reviewIndex=0;
+            document.getElementById('progressPage').classList.add('hidden');
+            document.getElementById('reviewPage').classList.remove('hidden');
+            showReviewQuestion();
+        }
+        function showReviewQuestion(){
+            const item=reviewItems[reviewIndex];
+            document.getElementById('reviewType').textContent=item.kind==='squares'?'SQUARES':item.kind==='cubes'?'CUBES':'TABLES';
+            document.getElementById('reviewCount').textContent=`${reviewIndex+1} / ${reviewItems.length}`;
+            document.getElementById('reviewQuestion').textContent=item.label;
+            document.getElementById('reviewAnswer').value='';
+            document.getElementById('reviewAnswer').disabled=false;
+            document.getElementById('reviewFeedback').className='review-feedback hidden';
+            document.getElementById('reviewCheck').classList.remove('hidden');
+            document.getElementById('reviewNext').classList.add('hidden');
+            document.getElementById('reviewAnswer').focus();
+        }
+        function checkReview(){
+            const item=reviewItems[reviewIndex],value=Number(document.getElementById('reviewAnswer').value),ok=value===item.answer;
+            const fb=document.getElementById('reviewFeedback');
+            fb.className=`review-feedback ${ok?'ok':'bad'}`;
+            fb.textContent=ok?`✓ Correct — ${item.answer}`:`Not yet. Correct answer: ${item.answer}`;
+            document.getElementById('reviewAnswer').disabled=true;
+            document.getElementById('reviewCheck').classList.add('hidden');
+            document.getElementById('reviewNext').classList.remove('hidden');
+            const weak=safeJson('mentalMathWeakSpots',{});
+            const id=`${item.kind}:${item.label}`;
+            if(weak[id]) weak[id].misses=ok?Math.max(0,weak[id].misses-1):weak[id].misses+1;
+            writeJson('mentalMathWeakSpots',weak);
+        }
+        document.getElementById('reviewMistakesBtn').addEventListener('click',()=>openReview());
+        document.getElementById('reviewCheck').addEventListener('click',checkReview);
+        document.getElementById('reviewAnswer').addEventListener('keydown',e=>{if(e.key==='Enter'&&!document.getElementById('reviewCheck').classList.contains('hidden'))checkReview()});
+        document.getElementById('reviewNext').addEventListener('click',()=>{
+            if(reviewIndex<reviewItems.length-1){reviewIndex++;showReviewQuestion()}
+            else {document.querySelector('.tab[data-tab="analysis"]').click();}
+        });
+        document.getElementById('backProgress').addEventListener('click',()=>{
+            document.getElementById('reviewPage').classList.add('hidden');
+            document.getElementById('progressPage').classList.remove('hidden');
+            document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab==='analysis'));
+            currentTab='analysis';
+            updateProgressPage();
+        });
+        document.getElementById('weakSpotsList').addEventListener('click',e=>{
+            const btn=e.target.closest('[data-review-index]');
+            if(btn) openReview([window.__weakReviewItems[Number(btn.dataset.reviewIndex)]]);
+        });
+
+
+        document.querySelectorAll('.analysis-range-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.analysis-range-btn').forEach(b=>b.classList.remove('active'));
+                btn.classList.add('active');
+                analysisRange = Number(btn.dataset.range);
+                updateProgressPage();
+            });
+        });
+
+        // Initialize
+        updateStats();
+        updatePracticeOnlyUI();
+        document.getElementById('practiceForm').style.display = 'none';
+        document.getElementById('difficultyControl').style.display = 'none';
+        updateDailyDashboard();
+        updateLearningDashboard();
+        updateProgressPage();
+        dailyDashboard.classList.remove('hidden');
+        dailySheet.classList.add('hidden');
+        backToDaily.classList.add('hidden');
+        document.getElementById('progressPage').classList.add('hidden');
+        document.getElementById('reviewPage').classList.add('hidden');
+    </script>
+
+</body>
+</html>
