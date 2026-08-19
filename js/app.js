@@ -7,7 +7,7 @@
  */
 
 import { renderDashboard } from "./dashboard.js";
-import { renderProgressScreen, applyTheme } from "./ui.js";
+import { renderProgressScreen, applyTheme, showToast } from "./ui.js";
 import { startPractice } from "./practice.js";
 import { startReview } from "./review.js";
 import { startDailyTest } from "./daily-test.js";
@@ -22,6 +22,7 @@ function init() {
   bindNavigation();
   showHomeScreen();
   registerServiceWorker();
+  bindInstallPrompt();
 }
 
 /* ---------------- Navigation ---------------- */
@@ -144,4 +145,67 @@ function registerServiceWorker() {
       navigator.serviceWorker.register("./service-worker.js").catch(console.error);
     });
   }
+}
+
+/* ---------------- Install (Download Lite App) ---------------- */
+
+let deferredInstallPrompt = null;
+
+function isStandalone() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true // iOS Safari
+  );
+}
+
+function isIos() {
+  return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+}
+
+function bindInstallPrompt() {
+  const btn = document.getElementById("install-btn");
+  if (!btn) return;
+
+  if (isStandalone()) {
+    // already installed / running as an app — nothing to offer
+    return;
+  }
+
+  // Chrome / Edge / Android: fires only if the app meets install criteria
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    btn.classList.remove("hidden");
+  });
+
+  window.addEventListener("appinstalled", () => {
+    deferredInstallPrompt = null;
+    btn.classList.add("hidden");
+    showToast("Installed — find it on your home screen");
+  });
+
+  // iOS Safari never fires beforeinstallprompt — show the button with
+  // manual instructions instead, since "Add to Home Screen" is user-driven there.
+  if (isIos()) {
+    btn.classList.remove("hidden");
+  }
+
+  btn.addEventListener("click", async () => {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      const { outcome } = await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      if (outcome !== "accepted") {
+        showToast("Install dismissed — you can try again anytime");
+      }
+      return;
+    }
+
+    if (isIos()) {
+      showToast("Tap Share, then \u201cAdd to Home Screen\u201d");
+      return;
+    }
+
+    showToast("Install isn't available in this browser yet");
+  });
 }
