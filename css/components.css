@@ -452,7 +452,27 @@ label {
   margin-top: 2px;
 }
 
-/* ---- Toast ---- */
+/* ---- Install button ---- */
+.install-btn {
+  margin: 0;
+  padding: 9px 14px;
+  font-size: 0.78rem;
+  background: transparent;
+  border: 1.5px dashed var(--accent-yellow);
+  color: var(--accent-yellow);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+}
+
+.install-btn:hover {
+  background: rgba(228, 190, 92, 0.12);
+  border-style: solid;
+}
+
+.hidden {
+  display: none !important;
+}
+
 #toast {
   position: fixed;
   left: 50%;
