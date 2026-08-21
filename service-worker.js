@@ -1,4 +1,4 @@
-const CACHE_NAME = "mental-math-daily-v1";
+const CACHE_NAME = "mental-math-daily-v2";
 
 const ASSETS = [
   "./",
@@ -20,6 +20,7 @@ const ASSETS = [
   "./js/daily-test.js",
   "./js/settings.js",
   "./js/dashboard.js",
+  "./js/feedback.js",
   "./js/app.js",
 
   "./assets/icons/icon-192.png",
