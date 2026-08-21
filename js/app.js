@@ -12,6 +12,7 @@ import { startPractice } from "./practice.js";
 import { startReview } from "./review.js";
 import { startDailyTest } from "./daily-test.js";
 import { openSettings } from "./settings.js";
+import { renderFeedback } from "./feedback.js";
 import { getSettings } from "./storage.js";
 import { getSuggestedTopic } from "./progress.js";
 
@@ -56,6 +57,10 @@ function handleNavigation(event) {
 
     case "settings":
       openSettings();
+      break;
+
+    case "feedback":
+      renderFeedback();
       break;
 
     case "dashboard":
