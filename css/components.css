@@ -469,6 +469,11 @@ label {
   border-style: solid;
 }
 
+/* ---- Feedback / giscus embed ---- */
+#giscus-container {
+  margin-top: var(--space-2);
+}
+
 .hidden {
   display: none !important;
 }
