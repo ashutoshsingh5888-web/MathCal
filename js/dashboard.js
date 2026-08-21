@@ -63,6 +63,7 @@ function renderQuickActions() {
         <button data-action="review">Review Mistakes</button>
         <button data-action="progress">Progress</button>
         <button data-action="settings">Settings</button>
+        <button data-action="feedback">Feedback</button>
       </div>
     </div>
   `;
