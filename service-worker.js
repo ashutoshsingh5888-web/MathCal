@@ -1,4 +1,4 @@
-const CACHE_NAME = "mental-math-daily-v6";
+const CACHE_NAME = "mental-math-daily-v7";
 
 const ASSETS = [
   "./",
