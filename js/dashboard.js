@@ -60,6 +60,7 @@ function renderQuickActions() {
       <div class="action-grid">
         <button class="primary" data-action="daily-test">▸ Daily Test</button>
         <button data-action="practice">Practice</button>
+        <button data-action="learn">Learn</button>
         <button data-action="review">Review Mistakes</button>
         <button data-action="progress">Progress</button>
         <button data-action="settings">Settings</button>
