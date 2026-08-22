@@ -1,9 +1,9 @@
 /**
  * learn.js
- * A reference/study mode, separate from practice.js. No scoring, no
- * timer, no storage writes — just the full table laid out so the
- * user can study it before being quizzed on it in Practice or the
- * Daily Test.
+ * A self-check reference/study mode, separate from practice.js. No
+ * timer, no scoring, no storage writes — but unlike a plain static
+ * table, each row asks for recall first: type the answer, get an
+ * instant tick if it's right, or reveal it on request if it isn't.
  */
 
 import { renderBackButton } from "./ui.js";
@@ -15,13 +15,15 @@ function appEl() {
 /* ---------------- Menu ---------------- */
 
 export function renderLearnMenu() {
+  ensureLearnBindings();
+
   appEl().innerHTML = `
     <div class="screen-enter">
       ${renderBackButton()}
       <h2>Learn</h2>
       <p class="learn-intro">
-        Study the full table before drilling it in Practice — no timer,
-        no scoring, just the reference.
+        Type the answer for each one — a tick means you've got it. If
+        you're stuck, reveal it rather than guessing.
       </p>
       <div class="menu-grid">
         <button class="menu-tile" data-learn="tables">
@@ -50,6 +52,27 @@ export function renderLearnMenu() {
   });
 }
 
+/* ---------------- Row builder (shared) ---------------- */
+
+function buildLearnRow(exprHtml, answer) {
+  return `
+    <div class="learn-row">
+      <span class="learn-expr">${exprHtml}</span>
+      <span class="learn-input-wrap">
+        <input
+          type="number"
+          inputmode="numeric"
+          class="learn-input"
+          data-answer="${answer}"
+          autocomplete="off"
+          aria-label="Answer for ${exprHtml}"
+        />
+        <span class="learn-check"></span>
+        <button type="button" class="learn-show hidden">Show</button>
+      </span>
+    </div>`;
+}
+
 /* ---------------- Tables ---------------- */
 
 function multiplesFor(n) {
@@ -65,7 +88,7 @@ function renderTablesLearn(selected = 10) {
     <div class="screen-enter">
       <button class="ghost" data-action="learn">← Back</button>
       <h2>Multiplication Tables</h2>
-      <p class="learn-intro">Pick a number to see its full table.</p>
+      <p class="learn-intro">Pick a number, then type each answer from memory.</p>
 
       <div class="chip-grid" id="tableNumberPicker">
         ${numbers
@@ -101,13 +124,7 @@ function renderTableGrid(n) {
   const upTo = multiplesFor(n);
 
   grid.innerHTML = Array.from({ length: upTo }, (_, i) => i + 1)
-    .map(
-      (m) => `
-      <div class="learn-row">
-        <span class="learn-expr">${n} × ${m}</span>
-        <span class="learn-result">${n * m}</span>
-      </div>`
-    )
+    .map((m) => buildLearnRow(`${n} × ${m}`, n * m))
     .join("");
 }
 
@@ -125,21 +142,61 @@ function renderNumberSeriesLearn(kind) {
     <div class="screen-enter">
       <button class="ghost" data-action="learn">← Back</button>
       <h2>${title} 1–${max}</h2>
-      <p class="learn-intro">Scan the sequence — notice how the pattern grows.</p>
+      <p class="learn-intro">Type each answer from memory — reveal only if you're stuck.</p>
 
       <div class="card">
         <div class="learn-grid learn-grid-two-col">
-          ${nums
-            .map(
-              (n) => `
-            <div class="learn-row">
-              <span class="learn-expr">${n}${label}</span>
-              <span class="learn-result">${compute(n)}</span>
-            </div>`
-            )
-            .join("")}
+          ${nums.map((n) => buildLearnRow(`${n}${label}`, compute(n))).join("")}
         </div>
       </div>
     </div>
   `;
+}
+
+/* ---------------- Self-check interactivity (bound once, delegated) ---------------- */
+
+let learnBound = false;
+
+function ensureLearnBindings() {
+  if (learnBound) return;
+  learnBound = true;
+
+  document.addEventListener("input", (event) => {
+    const input = event.target.closest(".learn-input");
+    if (!input) return;
+    evaluateLearnInput(input);
+  });
+
+  // focusout bubbles (unlike blur), so this works with plain delegation
+  document.addEventListener("focusout", (event) => {
+    const input = event.target.closest(".learn-input");
+    if (!input || input.disabled) return;
+    if (!input.classList.contains("correct")) {
+      const row = input.closest(".learn-row");
+      row.querySelector(".learn-show")?.classList.remove("hidden");
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    const showBtn = event.target.closest(".learn-show");
+    if (!showBtn) return;
+    const row = showBtn.closest(".learn-row");
+    const input = row.querySelector(".learn-input");
+    input.value = input.dataset.answer;
+    input.disabled = true;
+    input.classList.add("revealed");
+    showBtn.classList.add("hidden");
+  });
+}
+
+function evaluateLearnInput(input) {
+  const answer = Number(input.dataset.answer);
+  const value = input.value.trim();
+  if (value === "" || Number(value) !== answer) return;
+
+  input.classList.add("correct");
+  input.disabled = true;
+  const row = input.closest(".learn-row");
+  row.querySelector(".learn-check").textContent = "✓";
+  row.querySelector(".learn-show")?.classList.add("hidden");
 }
