@@ -1,0 +1,26 @@
+# Mental Math Daily
+
+> A free, installable browser tool for daily mental math practice —
+> multiplication tables, squares, cubes, powers and arithmetic — with
+> per-topic accuracy tracking, a daily streak, and automatic spaced
+> review of missed questions. No account required; all progress is
+> stored locally in the user's browser.
+
+## Main pages
+
+- [Home / practice dashboard](https://math-daily.pages.dev/): overview, daily test, topic menu, progress and settings.
+- [About](https://math-daily.pages.dev/about.html): what the app is, how data is stored, offline/PWA behavior.
+- [Mental math shortcuts guide](https://math-daily.pages.dev/guide.html): worked-example shortcuts for squares, cubes, and multiplication.
+
+## Practice pages (one per topic)
+
+- [Multiplication tables practice](https://math-daily.pages.dev/practice/tables.html)
+- [Squares practice](https://math-daily.pages.dev/practice/squares.html)
+- [Cubes practice](https://math-daily.pages.dev/practice/cubes.html)
+- [Powers practice](https://math-daily.pages.dev/practice/powers.html)
+- [Arithmetic practice](https://math-daily.pages.dev/practice/arithmetic.html)
+
+## Notes for automated readers
+
+- The app itself (question generation, scoring, session state) runs client-side after JavaScript loads; each page above also includes static, human-readable text describing that page's purpose, independent of JavaScript execution.
+- There is no server-side account system or API — all user data (progress, streaks, mistake history) is stored in browser localStorage only.
