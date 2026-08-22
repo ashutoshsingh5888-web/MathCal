@@ -13,6 +13,7 @@ import { startReview } from "./review.js";
 import { startDailyTest } from "./daily-test.js";
 import { openSettings } from "./settings.js";
 import { renderFeedback } from "./feedback.js";
+import { renderLearnMenu } from "./learn.js";
 import { getSettings } from "./storage.js";
 import { getSuggestedTopic } from "./progress.js";
 
@@ -47,6 +48,10 @@ function handleNavigation(event) {
   switch (action) {
     case "practice":
       showPracticeMenu();
+      break;
+
+    case "learn":
+      renderLearnMenu();
       break;
 
     case "review":
