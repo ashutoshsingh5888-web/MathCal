@@ -541,6 +541,62 @@ label {
   color: var(--ink);
 }
 
+.learn-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.learn-input {
+  width: 84px;
+  margin: 0;
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  border-radius: var(--radius-sm);
+}
+
+.learn-input.correct {
+  border-color: var(--correct);
+  background: rgba(134, 179, 123, 0.1);
+  color: var(--correct);
+  font-weight: 700;
+}
+
+.learn-input.revealed {
+  border-color: var(--ink-faint);
+  background: transparent;
+  color: var(--ink-dim);
+}
+
+.learn-check {
+  width: 16px;
+  color: var(--correct);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.learn-show {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: transparent;
+  color: var(--accent-coral);
+  border: 1px dashed var(--accent-coral);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+  margin: 0;
+}
+
+.learn-show:hover {
+  background: rgba(204, 107, 73, 0.1);
+}
+
+.learn-show.hidden {
+  display: none;
+}
+
 /* ---- Feedback / giscus embed ---- */
 #giscus-container {
   margin-top: var(--space-2);
