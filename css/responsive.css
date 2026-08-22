@@ -54,6 +54,14 @@
     font-size: 0.7rem;
     padding: 8px 10px;
   }
+
+  .chip-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .learn-grid-two-col {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 641px) {
