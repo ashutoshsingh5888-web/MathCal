@@ -1,4 +1,4 @@
-const CACHE_NAME = "mental-math-daily-v4";
+const CACHE_NAME = "mental-math-daily-v6";
 
 const ASSETS = [
   "./",
@@ -34,6 +34,7 @@ const ASSETS = [
   "./js/settings.js",
   "./js/dashboard.js",
   "./js/feedback.js",
+  "./js/learn.js",
   "./js/app.js",
 
   "./assets/icons/icon-192.png",
@@ -82,8 +83,10 @@ self.addEventListener("fetch", (event) => {
       if (cached) return cached;
       return fetch(event.request)
         .then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          if (response && response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
           return response;
         })
         .catch(() => caches.match("./index.html"));
