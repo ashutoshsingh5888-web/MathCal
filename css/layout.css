@@ -1,0 +1,136 @@
+/* ===================================================================
+   layout.css — base layout, chalk-grid backdrop, typography scale
+   =================================================================== */
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: local("Space Grotesk");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 34px 34px;
+  background-attachment: fixed;
+  background-position: -1px -1px;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-7);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--space-3);
+}
+
+h1 {
+  font-size: 1.7rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+h3 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+  font-weight: 600;
+}
+
+p {
+  margin: 0 0 var(--space-2);
+  line-height: 1.5;
+}
+
+small {
+  font-family: var(--font-mono);
+  color: var(--ink-dim);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+a {
+  color: inherit;
+}
+
+#app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-4) 0;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+#app-header .brand {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-yellow);
+}
+
+#app-header .brand::before {
+  content: "≡ ";
+}
+
+#dashboard,
+#app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 var(--space-4) var(--space-7);
+}
+
+.screen-enter {
+  animation: fadeUp 0.32s ease both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen-enter,
+  button,
+  .swoosh path {
+    animation: none !important;
+    transition: none !important;
+  }
+}

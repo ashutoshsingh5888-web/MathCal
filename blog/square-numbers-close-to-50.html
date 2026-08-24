@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>How to Square Numbers Close to 50 (Mental Math Trick)</title>
+  <meta name="description" content="Learn the mental math shortcut for squaring numbers near 50 — why it works, worked examples from 47² to 58², and when to reach for it." />
+  <link rel="canonical" href="https://math-daily.pages.dev/blog/square-numbers-close-to-50.html" />
+
+  <meta name="theme-color" content="#12201b" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ795YQS1V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EQ795YQS1V');
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to square numbers close to 50",
+    "description": "Mental math shortcut for squaring numbers near 50 using 2500 as an anchor.",
+    "step": [
+      { "@type": "HowToStep", "text": "Find how far the number is from 50 — call this x, positive or negative." },
+      { "@type": "HowToStep", "text": "Compute 2500 plus or minus 100 times x." },
+      { "@type": "HowToStep", "text": "Add x squared." }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header id="app-header">
+    <a class="brand" href="/" style="text-decoration:none;">Mental Math Daily</a>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <p><small><a href="/blog/">← Blog</a></small></p>
+      <h1>How to square numbers close to 50</h1>
+      <p>
+        50² is trivial — 2500. Numbers just above or below 50 can borrow
+        that fact directly instead of being squared from scratch.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>The rule</h2>
+      <p>
+        Let x be the distance from 50 (positive if above, negative if
+        below). Then:
+      </p>
+      <div style="text-align:center; font-family:var(--font-mono); font-size:0.9rem; color:var(--accent-yellow); background:var(--bg-raised-2); border-radius:10px; padding:12px; margin-top:12px;">
+        (50 ± x)² = 2500 ± 100x + x²
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Why it works</h2>
+      <p>
+        This is the standard (a+b)² expansion with a = 50 fixed:
+        (50+x)² = 2500 + 100x + x². Because a = 50 never changes, 2500
+        and the 100x term are both fast to produce — the only real work
+        is x², and x is always small since you'd switch methods for
+        numbers far from 50 anyway.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Worked examples</h2>
+      <p><strong>48²</strong> — x = −2. 2500 − 200 + 4 = <strong>2304</strong>.</p>
+      <p><strong>53²</strong> — x = +3. 2500 + 300 + 9 = <strong>2809</strong>.</p>
+      <p><strong>58²</strong> — x = +8. 2500 + 800 + 64 = <strong>3364</strong>.</p>
+      <p><strong>47²</strong> — x = −3. 2500 − 300 + 9 = <strong>2209</strong>.</p>
+    </div>
+
+    <div class="card">
+      <h2>When it's worth using</h2>
+      <p>
+        This shortcut earns its keep roughly within ±10 of 50 — once x
+        gets larger, x² itself starts requiring real calculation, at
+        which point breaking the number into tens and units (the
+        general-case method) is just as fast.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Practice it</h2>
+      <p><a href="/practice/squares.html">Practice squares →</a> · <a href="/guide.html">See the rest of the shortcuts guide →</a></p>
+    </div>
+  </main>
+</body>
+</html>
