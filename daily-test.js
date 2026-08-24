@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P74QD58W');</script>
+<!-- End Google Tag Manager -->
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Interactive: Multiplying Numbers Close to 100 | Mental Math Daily</title>
+<meta name="description" content="An interactive walkthrough and quiz for the base-100 multiplication shortcut." />
+<link rel="canonical" href="https://math-daily.pages.dev/interactive/base-100-multiplication.html" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ795YQS1V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EQ795YQS1V');
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+
+  :root {
+    --bg: #12201b;
+    --bg-raised: #1b2e27;
+    --bg-raised-2: #23392f;
+    --ink: #f3efe1;
+    --ink-dim: #a7b8ae;
+    --rule: rgba(243, 239, 225, 0.16);
+    --rule-strong: rgba(243, 239, 225, 0.3);
+    --yellow: #e4be5c;
+    --teal: #6fa8a0;
+    --coral: #cc6b49;
+    --green: #86b37b;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif;
+    background-image:
+      linear-gradient(var(--rule) 1px, transparent 1px),
+      linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+    background-size: 32px 32px;
+    padding: 28px 18px 48px;
+  }
+
+  .wrap { max-width: 580px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+
+  h1 { font-size: 1.55rem; margin: 0 0 6px; letter-spacing: -0.01em; }
+
+  .sub {
+    color: var(--ink-dim);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin: 0 0 22px;
+  }
+
+  .card {
+    background: var(--bg-raised);
+    border: 1.5px dashed var(--rule-strong);
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 16px;
+  }
+
+  .rule-box {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    color: var(--yellow);
+    background: var(--bg-raised-2);
+    border-radius: 10px;
+    padding: 12px;
+    line-height: 1.6;
+  }
+
+  .picker-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-dim);
+    margin-bottom: 10px;
+  }
+
+  .picker-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .picker-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.88rem;
+    background: var(--bg-raised-2);
+    color: var(--ink);
+    border: 1.5px solid var(--rule-strong);
+    border-radius: 8px;
+    padding: 10px 4px;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .picker-btn:hover { border-color: var(--yellow); }
+  .picker-btn.active {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: #2a2210;
+  }
+
+  /* ---- Cross diagram ---- */
+  .cross-wrap {
+    margin-top: 20px;
+    background: var(--bg-raised-2);
+    border-radius: 12px;
+    padding: 18px 14px;
+  }
+
+  .cross-numbers {
+    display: flex;
+    justify-content: space-around;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .cross-numbers .dev {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--teal);
+    margin-top: 4px;
+  }
+
+  .cross-line {
+    text-align: center;
+    color: var(--ink-dim);
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 10px 0;
+  }
+
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .node {
+    flex: 1 1 105px;
+    min-width: 96px;
+    background: var(--bg);
+    border: 1px solid var(--rule-strong);
+    border-radius: 10px;
+    padding: 12px 10px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .node.show { opacity: 1; transform: translateY(0); }
+
+  .node .lab {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-dim);
+    margin-bottom: 6px;
+  }
+
+  .node .val {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: var(--ink);
+  }
+
+  .node.answer .val { color: var(--green); font-size: 1.3rem; }
+
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teal);
+    font-size: 18px;
+    padding: 0 2px;
+  }
+
+  /* ---- Quiz ---- */
+  .quiz-question {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 6px 0 18px;
+  }
+
+  .quiz-row { display: flex; gap: 8px; }
+
+  input[type="number"] {
+    flex: 1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1.5px solid var(--rule-strong);
+    background: var(--bg);
+    color: var(--ink);
+  }
+  input[type="number"]:focus { outline: none; border-color: var(--yellow); }
+
+  button.check {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    background: var(--yellow);
+    color: #2a2210;
+    border: none;
+    border-radius: 10px;
+    padding: 0 18px;
+    cursor: pointer;
+  }
+
+  .quiz-feedback {
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    text-align: center;
+    min-height: 1.4em;
+  }
+  .quiz-feedback.ok { color: var(--green); }
+  .quiz-feedback.bad { color: var(--coral); }
+
+  button.next {
+    display: block;
+    margin: 12px auto 0;
+    background: transparent;
+    border: 1.5px dashed var(--rule-strong);
+    color: var(--ink-dim);
+    font-family: 'Space Grotesk', sans-serif;
+    border-radius: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  button.next:hover { border-color: var(--teal); color: var(--teal); }
+
+  @media (max-width: 420px) {
+    .quiz-question { font-size: 1.6rem; }
+    .flow { flex-direction: column; }
+    .arrow { transform: rotate(90deg); padding: 4px 0; }
+  }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P74QD58W"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="wrap">
+  <div class="eyebrow">Mental Math Shortcut</div>
+  <h1>Multiplying numbers close to 100</h1>
+  <p class="sub">
+    Write each number as 100 plus or minus a small deviation, then
+    combine the deviations instead of multiplying the full numbers.
+  </p>
+
+  <div class="card">
+    <div class="rule-box">
+      (100 + x)(100 + y) = 10000 + 100(x + y) + xy<br>
+      x and y can be negative — use the number's actual sign.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="picker-label">Pick a pair close to 100</div>
+    <div class="picker-grid" id="picker"></div>
+
+    <div class="cross-wrap">
+      <div class="cross-numbers" id="crossNumbers"></div>
+      <div class="cross-line">deviation from 100, shown above</div>
+    </div>
+
+    <div class="flow" id="flow"></div>
+  </div>
+
+  <div class="card">
+    <div class="picker-label" style="margin-bottom:14px;">Now try one yourself</div>
+    <div class="quiz-question" id="quizQuestion">103 × 104</div>
+    <div class="quiz-row">
+      <input type="number" id="quizInput" placeholder="Your answer" />
+      <button class="check" id="quizCheck">Check</button>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="next" id="quizNext" style="display:none;">Next pair →</button>
+  </div>
+</div>
+
+<script>
+  const picker = document.getElementById('picker');
+  const flow = document.getElementById('flow');
+  const crossNumbers = document.getElementById('crossNumbers');
+
+  const pairs = [
+    [97, 96], [103, 104], [98, 105], [94, 92],
+    [101, 99], [107, 103], [96, 91], [102, 108],
+    [99, 97],
+  ];
+
+  function fmt(x) {
+    return (x >= 0 ? '+' : '−') + Math.abs(x);
+  }
+
+  function renderPair(a, b) {
+    const x = a - 100;
+    const y = b - 100;
+    const crossA = a + y;      // a adjusted by other's deviation
+    const tail = x * y;
+    const answer = a * b;
+
+    crossNumbers.innerHTML = `
+      <div>${a}<span class="dev">100 ${fmt(x)}</span></div>
+      <div>${b}<span class="dev">100 ${fmt(y)}</span></div>
+    `;
+
+    flow.innerHTML = '';
+    const nodes = [
+      ['Input', `${a} × ${b}`],
+      ['Deviations', `${fmt(x)}, ${fmt(y)}`],
+      ['Cross-add', `${a} ${fmt(y)} = ${crossA}`],
+      ['Tail (x×y)', `${x} × ${y} = ${tail}`],
+      ['Combine', `${crossA}${tail < 0 ? ' − ' + Math.abs(tail) : ' | ' + String(tail).padStart(2,'0')}`],
+      ['Answer', answer],
+    ];
+
+    nodes.forEach((node, i) => {
+      const box = document.createElement('div');
+      box.className = 'node' + (i === nodes.length - 1 ? ' answer' : '');
+      box.innerHTML = `<div class="lab">${node[0]}</div><div class="val">${node[1]}</div>`;
+      flow.appendChild(box);
+
+      if (i < nodes.length - 1) {
+        const arrow = document.createElement('div');
+        arrow.className = 'arrow';
+        arrow.textContent = '→';
+        flow.appendChild(arrow);
+      }
+    });
+
+    requestAnimationFrame(() => {
+      [...flow.querySelectorAll('.node')].forEach((el, i) => {
+        setTimeout(() => el.classList.add('show'), i * 110);
+      });
+    });
+  }
+
+  pairs.forEach((pair, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'picker-btn' + (i === 1 ? ' active' : '');
+    btn.textContent = `${pair[0]} × ${pair[1]}`;
+    btn.addEventListener('click', () => {
+      picker.querySelectorAll('.picker-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPair(pair[0], pair[1]);
+    });
+    picker.appendChild(btn);
+  });
+
+  renderPair(pairs[1][0], pairs[1][1]);
+
+  // ---- Quiz ----
+  const quizQuestion = document.getElementById('quizQuestion');
+  const quizInput = document.getElementById('quizInput');
+  const quizCheck = document.getElementById('quizCheck');
+  const quizFeedback = document.getElementById('quizFeedback');
+  const quizNext = document.getElementById('quizNext');
+
+  let currentPair = null;
+
+  function newQuizQuestion() {
+    const pool = pairs.filter(p => p !== currentPair);
+    currentPair = pool[Math.floor(Math.random() * pool.length)];
+    quizQuestion.textContent = `${currentPair[0]} × ${currentPair[1]}`;
+    quizInput.value = '';
+    quizInput.disabled = false;
+    quizFeedback.textContent = '';
+    quizFeedback.className = 'quiz-feedback';
+    quizCheck.style.display = 'inline-block';
+    quizNext.style.display = 'none';
+    quizInput.focus();
+  }
+
+  function checkQuiz() {
+    const answer = currentPair[0] * currentPair[1];
+    const given = Number(quizInput.value);
+    const ok = given === answer;
+    quizFeedback.textContent = ok ? `Correct — ${answer}` : `Not quite — answer is ${answer}`;
+    quizFeedback.className = 'quiz-feedback ' + (ok ? 'ok' : 'bad');
+    quizInput.disabled = true;
+    quizCheck.style.display = 'none';
+    quizNext.style.display = 'block';
+  }
+
+  quizCheck.addEventListener('click', checkQuiz);
+  quizNext.addEventListener('click', newQuizQuestion);
+  quizInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && quizCheck.style.display !== 'none') checkQuiz();
+  });
+
+  newQuizQuestion();
+</script>
+</body>
+</html>

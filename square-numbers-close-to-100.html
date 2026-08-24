@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P74QD58W');</script>
+<!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Same Tens Digit, Units That Add to 10 (Mental Math Trick)</title>
+  <meta name="description" content="A fast multiplication shortcut for pairs like 42 x 48 — same tens digit, units that add up to 10 — that turns into two tiny multiplications." />
+  <link rel="canonical" href="https://math-daily.pages.dev/blog/same-tens-complementary-units.html" />
+
+  <meta name="theme-color" content="#12201b" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ795YQS1V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EQ795YQS1V');
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Multiplying numbers with the same tens digit and complementary units",
+    "description": "Mental math shortcut for multiplying two-digit numbers that share a tens digit and whose units sum to 10.",
+    "step": [
+      { "@type": "HowToStep", "text": "Confirm both numbers share the same tens digit and their units digits add to 10." },
+      { "@type": "HowToStep", "text": "Multiply the tens digit by one more than itself for the leading digits." },
+      { "@type": "HowToStep", "text": "Multiply the two units digits together for the trailing two digits." }
+    ]
+  }
+  </script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P74QD58W"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <header id="app-header">
+    <a class="brand" href="/" style="text-decoration:none;">Mental Math Daily</a>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <p><small><a href="/blog/">← Blog</a></small></p>
+      <h1>Same tens digit, units that add to 10</h1>
+      <p>
+        This is a narrow shortcut, but when it applies, it's almost as
+        fast as the "ending in 5" squares trick — two two-digit numbers
+        collapse into two tiny multiplications.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>When it applies</h2>
+      <p>
+        Both numbers need the same tens digit, and their units digits
+        need to add up to exactly 10. 42 and 48 qualify (both have tens
+        digit 4; units 2 and 8 sum to 10). 42 and 47 don't (units sum to
+        9).
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>The rule</h2>
+      <p>
+        Let t be the shared tens digit, and u₁, u₂ be the two units
+        digits (which sum to 10). Then:
+      </p>
+      <div style="text-align:center; font-family:var(--font-mono); font-size:0.9rem; color:var(--accent-yellow); background:var(--bg-raised-2); border-radius:10px; padding:12px; margin-top:12px;">
+        Leading digits: t × (t + 1)<br>
+        Trailing two digits: u₁ × u₂
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Why it works</h2>
+      <p>
+        Write the two numbers as (10t + u) and (10t + (10 − u)).
+        Multiplying them out: 100t² + 10t(10 − u) + 10tu + u(10 − u) =
+        100t² + 100t + u(10 − u) = 100·t(t+1) + u(10−u). The first term
+        gives the leading digits, and u(10−u) — which is exactly
+        u₁ × u₂ — gives the trailing two.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Worked examples</h2>
+      <p>
+        <strong>42 × 48</strong> — t=4, units 2 and 8. Leading: 4×5=20.
+        Trailing: 2×8=16. Combine → <strong>2016</strong>.
+      </p>
+      <p>
+        <strong>61 × 69</strong> — t=6, units 1 and 9. Leading: 6×7=42.
+        Trailing: 1×9=09 (pad to two digits). Combine →
+        <strong>4209</strong>.
+      </p>
+      <p>
+        <strong>73 × 77</strong> — t=7, units 3 and 7. Leading: 7×8=56.
+        Trailing: 3×7=21. Combine → <strong>5621</strong>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Watch the padding</h2>
+      <p>
+        The trailing part always needs exactly two digits. In the 61×69
+        example, 1×9=9 has to be written as "09," not "9" — otherwise
+        the digits don't land in the right place and the answer comes
+        out wrong by a factor of ten.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Practice it</h2>
+      <p><a href="/practice/arithmetic.html">Practice arithmetic →</a> · <a href="/guide.html">See the rest of the shortcuts guide →</a></p>
+    </div>
+  </main>
+</body>
+</html>
