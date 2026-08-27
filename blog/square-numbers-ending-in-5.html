@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P74QD58W');</script>
+<!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>How to Square Numbers Ending in 5 (Mental Math Trick)</title>
+  <meta name="description" content="Learn the mental math shortcut for squaring any number ending in 5 — why it works, worked examples from 15² to 195², and an interactive demo to practice it." />
+  <link rel="canonical" href="https://math-daily.pages.dev/blog/square-numbers-ending-in-5.html" />
+
+  <meta name="theme-color" content="#12201b" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to square numbers ending in 5",
+    "description": "Mental math shortcut for squaring any number ending in 5 without long multiplication.",
+    "step": [
+      { "@type": "HowToStep", "text": "Take the digit or digits before the final 5. Call this k." },
+      { "@type": "HowToStep", "text": "Multiply k by (k + 1)." },
+      { "@type": "HowToStep", "text": "Append 25 to the end of that result." }
+    ]
+  }
+  </script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P74QD58W"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <header id="app-header">
+    <a class="brand" href="/" style="text-decoration:none;">Mental Math Daily</a>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <p><small><a href="/blog/">← Blog</a></small></p>
+      <h1>How to square numbers ending in 5</h1>
+      <p>
+        Any number ending in 5 — 15, 65, 105, whatever — squares using a
+        shortcut that skips multiplication almost entirely. Once it's
+        automatic, questions like 85² stop being calculations and start
+        being lookups.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>The rule</h2>
+      <p>
+        Take the digit(s) before the 5 — call that number <strong>k</strong>.
+        Multiply k by (k + 1). Then stick <strong>25</strong> on the end of
+        that result. That's the whole answer.
+      </p>
+      <div class="rule-box" style="text-align:center; font-family:var(--font-mono); font-size:0.95rem; color:var(--accent-yellow); background:var(--bg-raised-2); border-radius:10px; padding:12px; margin-top:12px;">
+        (k5)² = k × (k+1), then append 25
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Why it actually works</h2>
+      <p>
+        This isn't a coincidence or a memorized rule with no reason behind
+        it — it falls straight out of algebra. A number ending in 5 can
+        always be written as <strong>10k + 5</strong>, where k is
+        everything before the final digit. Squaring that:
+      </p>
+      <p style="font-family:var(--font-mono); color:var(--ink-dim); font-size:0.9rem; line-height:1.7;">
+        (10k + 5)² = 100k² + 100k + 25<br>
+        = 100k(k + 1) + 25
+      </p>
+      <p>
+        That last line is exactly the shortcut: k(k+1) gives the digits
+        before the last two, and the +25 fills in the last two digits
+        every time — because 100 times anything just shifts it two places
+        left, and 25 slots in underneath.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Worked examples</h2>
+      <p><strong>15²</strong> — k = 1. 1 × 2 = 2. Append 25 → <strong>225</strong>.</p>
+      <p><strong>35²</strong> — k = 3. 3 × 4 = 12. Append 25 → <strong>1225</strong>.</p>
+      <p><strong>65²</strong> — k = 6. 6 × 7 = 42. Append 25 → <strong>4225</strong>.</p>
+      <p><strong>95²</strong> — k = 9. 9 × 10 = 90. Append 25 → <strong>9025</strong>.</p>
+      <p><strong>105²</strong> — k = 10. 10 × 11 = 110. Append 25 → <strong>11025</strong>.</p>
+      <p>
+        Notice the pattern holds the same way past 100 — k just becomes a
+        two-digit number, and the method doesn't change at all.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Try it interactively</h2>
+      <p>Pick a number and watch each step of the shortcut happen, then test yourself in the quiz below it.</p>
+      <iframe
+        src="/interactive/squares-ending-in-5.html"
+        title="Interactive: squaring numbers ending in 5"
+        loading="lazy"
+        style="width:100%; height:640px; border:1.5px dashed var(--rule-strong); border-radius:16px; margin-top:12px;"
+      ></iframe>
+      <p><small><a href="/interactive/squares-ending-in-5.html" target="_blank" rel="noopener">Open full-screen →</a></small></p>
+    </div>
+
+    <div class="card">
+      <h2>A common mistake</h2>
+      <p>
+        The most common slip is forgetting the +25 has to occupy exactly
+        two digits — for k×(k+1) values under 10, you still append "25"
+        as two digits, not skip a place. 15² isn't "225" by accident of
+        formatting — 1×2=2, and 2 followed by 25 is 225, which is correct
+        specifically because 25 always takes the last two digit-slots.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Practice it for real</h2>
+      <p>
+        Once the pattern feels automatic on a few examples, drill it
+        under a timer with random numbers — that's where it actually
+        becomes fast recall instead of a rule you're re-deriving each
+        time.
+      </p>
+      <p><a href="/practice/squares.html">Practice squares →</a> · <a href="/guide.html">See the rest of the shortcuts guide →</a></p>
+    </div>
+  </main>
+</body>
+</html>

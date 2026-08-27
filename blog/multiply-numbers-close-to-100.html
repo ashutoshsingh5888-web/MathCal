@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P74QD58W');</script>
+<!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>How to Multiply Numbers Close to 100 (Mental Math Trick)</title>
+  <meta name="description" content="Learn the base-100 mental math shortcut for multiplying two numbers close to 100 — why it works, worked examples, and an interactive demo to practice it." />
+  <link rel="canonical" href="https://math-daily.pages.dev/blog/multiply-numbers-close-to-100.html" />
+
+  <meta name="theme-color" content="#12201b" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to multiply numbers close to 100",
+    "description": "Mental math shortcut for multiplying two numbers that are both near 100.",
+    "step": [
+      { "@type": "HowToStep", "text": "Write each number as 100 plus or minus a small deviation." },
+      { "@type": "HowToStep", "text": "Cross-add: take one number and adjust it by the other's deviation." },
+      { "@type": "HowToStep", "text": "Multiply the two deviations together for the last two digits." },
+      { "@type": "HowToStep", "text": "Combine the cross-added value with the deviation product, carrying if needed." }
+    ]
+  }
+  </script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P74QD58W"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <header id="app-header">
+    <a class="brand" href="/" style="text-decoration:none;">Mental Math Daily</a>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <p><small><a href="/blog/">← Blog</a></small></p>
+      <h1>How to multiply numbers close to 100</h1>
+      <p>
+        97 × 103 looks like a calculator problem. It isn't — both numbers
+        are close to a round, easy base, and that's exactly the situation
+        this shortcut is built for.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>The rule</h2>
+      <p>
+        Write each number as 100 plus or minus a small deviation. Then:
+      </p>
+      <div style="text-align:center; font-family:var(--font-mono); font-size:0.88rem; color:var(--accent-yellow); background:var(--bg-raised-2); border-radius:10px; padding:12px; line-height:1.6; margin-top:12px;">
+        (100 + x)(100 + y) = 10000 + 100(x + y) + xy
+      </div>
+      <p style="margin-top:12px;">
+        In practice: adjust one number by the other's deviation to get
+        the leading part, then multiply the two deviations for the
+        trailing two digits.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Why it actually works</h2>
+      <p>
+        This is just the distributive law applied to a convenient base.
+        If a = 100 + x and b = 100 + y, expanding (100+x)(100+y) gives
+        10000 + 100x + 100y + xy — which regroups into 10000 + 100(x+y) +
+        xy. The 10000 and the 100(x+y) term combine into one leading
+        number once you cross-add, and xy is small enough to just tack
+        onto the end.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Worked examples</h2>
+      <p>
+        <strong>97 × 96</strong> — deviations: −3 and −4. Cross-add:
+        97 − 4 = 93. Tail: (−3)×(−4) = 12. Combine → <strong>9312</strong>.
+      </p>
+      <p>
+        <strong>103 × 104</strong> — deviations: +3 and +4. Cross-add:
+        103 + 4 = 107. Tail: 3×4 = 12. Combine → <strong>10712</strong>.
+      </p>
+      <p>
+        <strong>98 × 105</strong> — deviations: −2 and +5. Cross-add:
+        98 + 5 = 103. Tail: (−2)×5 = −10. Combine: 103 hundreds minus 10
+        → <strong>10290</strong>.
+      </p>
+      <p>
+        That last example is the one case worth slowing down for: when
+        the deviations have opposite signs, the tail can be negative,
+        which means subtracting instead of just appending. It's still
+        fast — just don't on autopilot glue the numbers together without
+        checking the sign first.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Try it interactively</h2>
+      <p>Pick a pair and watch the deviations, cross-add, and tail get computed step by step.</p>
+      <iframe
+        src="/interactive/base-100-multiplication.html"
+        title="Interactive: multiplying numbers close to 100"
+        loading="lazy"
+        style="width:100%; height:760px; border:1.5px dashed var(--rule-strong); border-radius:16px; margin-top:12px;"
+      ></iframe>
+      <p><small><a href="/interactive/base-100-multiplication.html" target="_blank" rel="noopener">Open full-screen →</a></small></p>
+    </div>
+
+    <div class="card">
+      <h2>When this shortcut is worth reaching for</h2>
+      <p>
+        It's fastest when both numbers are within roughly 10–15 of 100.
+        Much further out, the deviations get large enough that squaring
+        or multiplying them isn't obviously faster than just doing the
+        multiplication directly — at that point it's fine to fall back
+        to a different method, like breaking one number into tens and
+        units.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Practice it for real</h2>
+      <p>
+        Read through a few examples until the pattern clicks, then drill
+        it under time pressure with random pairs — that's the point
+        where it stops being a rule you're consciously applying and
+        starts being instant recall.
+      </p>
+      <p><a href="/practice/arithmetic.html">Practice arithmetic →</a> · <a href="/guide.html">See the rest of the shortcuts guide →</a></p>
+    </div>
+  </main>
+</body>
+</html>
