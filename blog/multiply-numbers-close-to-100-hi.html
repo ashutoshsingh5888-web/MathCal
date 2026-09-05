@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>100 के पास वाली संख्याओं को गुणा करने की ट्रिक (Mental Math)</title>
+  <meta name="description" content="100 के आसपास की दो संख्याओं को तेज़ी से गुणा करने की मेंटल मैथ ट्रिक — क्यों काम करती है, उदाहरण, और कब इस्तेमाल करें।" />
+  <link rel="canonical" href="https://math-daily.pages.dev/blog/multiply-numbers-close-to-100-hi.html" />
+  <link rel="alternate" hreflang="en" href="https://math-daily.pages.dev/blog/multiply-numbers-close-to-100.html" />
+  <link rel="alternate" hreflang="hi" href="https://math-daily.pages.dev/blog/multiply-numbers-close-to-100-hi.html" />
+
+  <meta name="theme-color" content="#12201b" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+  <style>
+    body, h1, h2, h3, p, li { font-family: "Noto Sans Devanagari", var(--font-display), sans-serif; }
+  </style>
+
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P74QD58W');</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "100 के पास वाली संख्याओं को गुणा करने की तरीका",
+    "description": "100 के आसपास की दो संख्याओं को गुणा करने की मेंटल मैथ ट्रिक।",
+    "step": [
+      { "@type": "HowToStep", "text": "हर संख्या को 100 प्लस या माइनस एक छोटे अंतर के रूप में लिखें।" },
+      { "@type": "HowToStep", "text": "एक संख्या को दूसरी के अंतर से adjust करें।" },
+      { "@type": "HowToStep", "text": "दोनों अंतरों को आपस में गुणा करें।" },
+      { "@type": "HowToStep", "text": "दोनों हिस्सों को मिलाएं, ज़रूरत पड़े तो कैरी करें।" }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P74QD58W"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <header id="app-header">
+    <a class="brand" href="/" style="text-decoration:none;">Mental Math Daily</a>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <p><small><a href="/blog/">← Blog</a> · <a href="/blog/multiply-numbers-close-to-100.html">Read in English →</a></small></p>
+      <h1>100 के पास वाली संख्याओं को गुणा करना</h1>
+      <p>
+        97 × 103 देखने में कैलकुलेटर वाला सवाल लगता है। है नहीं — दोनों
+        संख्याएं एक आसान, गोल बेस के पास हैं, और यही ट्रिक बिल्कुल इसी
+        स्थिति के लिए बनी है।
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>तरीका</h2>
+      <p>हर संख्या को 100 प्लस या माइनस एक छोटे अंतर के रूप में लिखें। फिर:</p>
+      <div style="text-align:center; font-family:var(--font-mono); font-size:0.88rem; color:var(--accent-yellow); background:var(--bg-raised-2); border-radius:10px; padding:12px; margin-top:12px;">
+        (100 + x)(100 + y) = 10000 + 100(x + y) + xy
+      </div>
+      <p style="margin-top:12px;">
+        व्यावहारिक तरीके से: एक संख्या को दूसरी के अंतर से adjust
+        करके आगे वाला हिस्सा निकालें, फिर दोनों अंतरों को गुणा करके
+        आख़िरी दो अंक निकालें।
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>यह काम कैसे करती है</h2>
+      <p>
+        यह सिर्फ distributive law है, एक सुविधाजनक बेस के साथ। अगर
+        a = 100 + x और b = 100 + y, तो (100+x)(100+y) को expand करने
+        पर 10000 + 100x + 100y + xy मिलता है — जिसे regroup करने पर
+        10000 + 100(x+y) + xy बनता है।
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>उदाहरण</h2>
+      <p>
+        <strong>97 × 96</strong> — अंतर: −3 और −4. Cross-add: 97 − 4 =
+        93. आख़िरी हिस्सा: (−3)×(−4) = 12. मिलाएं → <strong>9312</strong>.
+      </p>
+      <p>
+        <strong>103 × 104</strong> — अंतर: +3 और +4. Cross-add: 103 + 4
+        = 107. आख़िरी हिस्सा: 3×4 = 12. मिलाएं → <strong>10712</strong>.
+      </p>
+      <p>
+        <strong>98 × 105</strong> — अंतर: −2 और +5. Cross-add: 98 + 5 =
+        103. आख़िरी हिस्सा: (−2)×5 = −10. मिलाएं: 103 सैकड़ा माइनस 10
+        → <strong>10290</strong>.
+      </p>
+      <p>
+        यह आखिरी उदाहरण ध्यान से समझने लायक है: जब दोनों अंतरों के
+        साइन अलग हों, तो आख़िरी हिस्सा negative हो सकता है — यानी
+        जोड़ने की जगह घटाना पड़ता है।
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>प्रैक्टिस करें</h2>
+      <p><a href="/practice/arithmetic.html">Arithmetic प्रैक्टिस करें →</a> · <a href="/guide.html">बाकी शॉर्टकट्स देखें →</a></p>
+    </div>
+  </main>
+</body>
+</html>

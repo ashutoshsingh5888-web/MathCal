@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>How to Find the Unit Digit of Large Powers Instantly</title>
+  <meta name="description" content="Find the last digit of numbers like 7 to the power 253 in seconds using cyclic patterns — a classic number system shortcut for competitive exams." />
+  <link rel="canonical" href="https://math-daily.pages.dev/blog/unit-digit-of-large-powers.html" />
+
+  <meta name="theme-color" content="#12201b" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P74QD58W');</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to find the unit digit of a large power",
+    "description": "Mental math method for finding the last digit of a number raised to a large power, using cyclic patterns.",
+    "step": [
+      { "@type": "HowToStep", "text": "Find the last digit of the base number." },
+      { "@type": "HowToStep", "text": "Determine the cycle length of that digit's powers (1, 2, or 4)." },
+      { "@type": "HowToStep", "text": "Find the remainder of the exponent divided by the cycle length." },
+      { "@type": "HowToStep", "text": "Match that remainder to the correct position in the cycle." }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P74QD58W"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <header id="app-header">
+    <a class="brand" href="/" style="text-decoration:none;">Mental Math Daily</a>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <p><small><a href="/blog/">← Blog</a></small></p>
+      <h1>How to find the unit digit of large powers</h1>
+      <p>
+        Nobody's computing 7²⁵³ by hand — but exams don't need the full
+        number, just its last digit. That's a completely different,
+        much faster problem.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>The key idea: last digits repeat in cycles</h2>
+      <p>
+        The last digit of powers of any number repeats in a short,
+        predictable cycle. Once you know the cycle, you only need to
+        know where in the cycle a given exponent lands.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>The cycles for each last digit</h2>
+      <p style="font-family:var(--font-mono); color:var(--ink-dim); line-height:1.9;">
+        0, 1, 5, 6 → always end in themselves (cycle length 1)<br>
+        4, 9 → cycle length 2<br>
+        2, 3, 7, 8 → cycle length 4
+      </p>
+      <p>
+        Example — powers of 7: 7¹=...7, 7²=...9, 7³=...3, 7⁴=...1, then
+        7⁵=...7 again. The pattern (7, 9, 3, 1) repeats every 4 powers.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>The method</h2>
+      <p>
+        Find the last digit of the base. Find its cycle length (from
+        the table above). Divide the exponent by the cycle length and
+        look at the remainder — that remainder tells you which position
+        in the cycle to use (with the cycle length itself standing in
+        for a remainder of 0).
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Worked example: last digit of 7²⁵³</h2>
+      <p>
+        Last digit of base: 7. Cycle length: 4. 253 ÷ 4 = 63 remainder
+        1. Remainder 1 means the 1st position in the cycle (7, 9, 3, 1)
+        → <strong>7</strong>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Worked example: last digit of 8¹⁰⁰</h2>
+      <p>
+        Last digit of base: 8. Cycle length: 4 — the pattern is (8, 4,
+        2, 6). 100 ÷ 4 = 25 remainder 0. A remainder of 0 means the
+        <em>last</em> position in the cycle, not skip it —
+        <strong>6</strong>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>The remainder-zero trap</h2>
+      <p>
+        This is where most mistakes happen: a remainder of 0 doesn't
+        mean "nothing" — it means the exponent is an exact multiple of
+        the cycle length, which lines up with the <em>last</em> entry in
+        the cycle, not the first.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Practice it</h2>
+      <p><a href="/practice/powers.html">Practice powers →</a> · <a href="/guide.html">See the rest of the shortcuts guide →</a></p>
+    </div>
+  </main>
+</body>
+</html>

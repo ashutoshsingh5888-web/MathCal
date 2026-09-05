@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Divisibility Rules 2 to 11 — Fast Checks Without Dividing</title>
+  <meta name="description" content="Quick divisibility rules for 2 through 11 that let you check factors instantly — no actual division needed. Essential for number system questions in competitive exams." />
+  <link rel="canonical" href="https://math-daily.pages.dev/blog/divisibility-rules.html" />
+
+  <meta name="theme-color" content="#12201b" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P74QD58W');</script>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P74QD58W"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <header id="app-header">
+    <a class="brand" href="/" style="text-decoration:none;">Mental Math Daily</a>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <p><small><a href="/blog/">← Blog</a></small></p>
+      <h1>Divisibility rules 2 through 11</h1>
+      <p>
+        Number system questions — factors, HCF/LCM, simplification —
+        move much faster when you can check divisibility by sight
+        instead of doing the actual division.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>2, 5, 10 — check the last digit</h2>
+      <p><strong>Divisible by 2:</strong> last digit is even (0, 2, 4, 6, 8).</p>
+      <p><strong>Divisible by 5:</strong> last digit is 0 or 5.</p>
+      <p><strong>Divisible by 10:</strong> last digit is 0.</p>
+    </div>
+
+    <div class="card">
+      <h2>3 and 9 — sum the digits</h2>
+      <p>
+        <strong>Divisible by 3:</strong> add up all the digits — if that
+        sum is divisible by 3, so is the original number.
+      </p>
+      <p>
+        <strong>Divisible by 9:</strong> same idea, but the digit sum
+        needs to be divisible by 9.
+      </p>
+      <p>
+        Example: 4,572 — digits sum to 4+5+7+2 = 18. 18 is divisible by
+        both 3 and 9, so 4,572 is divisible by both.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>4 and 8 — check the last few digits</h2>
+      <p>
+        <strong>Divisible by 4:</strong> the last two digits, read as
+        their own number, are divisible by 4.
+      </p>
+      <p>
+        <strong>Divisible by 8:</strong> the last three digits, read as
+        their own number, are divisible by 8.
+      </p>
+      <p>
+        Example: 71,928 — last two digits "28" are divisible by 4, so
+        71,928 is divisible by 4. Last three digits "928" ÷ 8 = 116, so
+        it's divisible by 8 too.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>6 — combine two rules</h2>
+      <p>
+        <strong>Divisible by 6:</strong> the number must pass both the
+        rule for 2 (even) and the rule for 3 (digit sum divisible by 3)
+        at the same time.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>11 — alternating sum</h2>
+      <p>
+        <strong>Divisible by 11:</strong> add the digits in the odd
+        positions, add the digits in the even positions, and subtract.
+        If the result is 0 or a multiple of 11, the number is divisible
+        by 11.
+      </p>
+      <p>
+        Example: 9,152 — odd positions (from the right): 2 and 1 → sum
+        3. Even positions: 5 and 9 → sum 14. Difference: 14 − 3 = 11.
+        That's a multiple of 11, so 9,152 is divisible by 11.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>7 — the one without a clean shortcut</h2>
+      <p>
+        There's a rule for 7 (double the last digit, subtract it from
+        the rest, repeat), but it's slow enough that for most exam
+        purposes, direct division or estimation is just as fast. Worth
+        knowing it exists, not worth memorizing as a speed method.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Practice it</h2>
+      <p><a href="/practice/arithmetic.html">Practice arithmetic →</a> · <a href="/guide.html">See the rest of the shortcuts guide →</a></p>
+    </div>
+  </main>
+</body>
+</html>

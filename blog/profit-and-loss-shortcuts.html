@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Profit and Loss Shortcuts for Competitive Exams</title>
+  <meta name="description" content="Fast profit, loss, and discount calculation methods for SSC, RRB, and Bank exam quantitative aptitude sections, using percentage-based shortcuts instead of full formulas." />
+  <link rel="canonical" href="https://math-daily.pages.dev/blog/profit-and-loss-shortcuts.html" />
+
+  <meta name="theme-color" content="#12201b" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P74QD58W');</script>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P74QD58W"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <header id="app-header">
+    <a class="brand" href="/" style="text-decoration:none;">Mental Math Daily</a>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <p><small><a href="/blog/">← Blog</a></small></p>
+      <h1>Profit and loss shortcuts</h1>
+      <p>
+        Profit and loss questions are really just percentage questions
+        wearing a costume — cost price, selling price, and discount are
+        the same fraction-of-a-number arithmetic from the percentage
+        shortcuts, applied to a specific story.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>The core relationship</h2>
+      <p style="font-family:var(--font-mono); color:var(--ink-dim); line-height:1.9;">
+        Selling Price = Cost Price × (1 + Profit% / 100)<br>
+        Selling Price = Cost Price × (1 − Loss% / 100)
+      </p>
+      <p>
+        The shortcut isn't a different formula — it's using the
+        percentage building-block method (10% and 1%) from the
+        percentage shortcuts post to compute the multiplier fast instead
+        of doing long multiplication.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Worked example: 15% profit on cost price 240</h2>
+      <p>
+        10% of 240 = 24. 5% = 12. 15% = 24 + 12 = 36. Selling price =
+        240 + 36 = <strong>276</strong>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Discount stacking</h2>
+      <p>
+        Two successive discounts (like "30% off, then an extra 10% off")
+        don't add to 40% — this is the exact same successive-percentage-
+        change trap from the percentage shortcuts post:
+      </p>
+      <div style="text-align:center; font-family:var(--font-mono); font-size:0.88rem; color:var(--accent-yellow); background:var(--bg-raised-2); border-radius:10px; padding:12px; margin-top:12px;">
+        Net discount = a + b − (a × b)/100
+      </div>
+      <p style="margin-top:12px;">
+        For 30% then 10%: 30 + 10 − (30×10)/100 = 40 − 3 =
+        <strong>37%</strong> net discount, not 40%.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Working backward from selling price</h2>
+      <p>
+        A common exam twist gives you the selling price and profit
+        percentage, and asks for the cost price:
+      </p>
+      <p style="font-family:var(--font-mono); color:var(--ink-dim);">
+        Cost Price = Selling Price × 100 / (100 + Profit%)
+      </p>
+      <p>
+        Example: sold at 276 with 15% profit. Cost price = 276 × 100 /
+        115 = <strong>240</strong>. This is just running the first
+        example in reverse.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Practice it</h2>
+      <p><a href="/blog/percentage-shortcuts-for-exams.html">Percentage shortcuts →</a> · <a href="/practice/arithmetic.html">Practice arithmetic →</a></p>
+    </div>
+  </main>
+</body>
+</html>

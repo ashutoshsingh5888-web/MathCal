@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>How to Find Cube Roots Instantly (Last-Digit Trick)</title>
+  <meta name="description" content="A near-instant method to find the exact cube root of a perfect cube using the last-digit pattern — a favorite shortcut in SSC and banking quant sections." />
+  <link rel="canonical" href="https://math-daily.pages.dev/blog/cube-root-estimation-trick.html" />
+
+  <meta name="theme-color" content="#12201b" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/variables.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P74QD58W');</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to find cube roots of perfect cubes instantly",
+    "description": "Mental math method using last-digit patterns to instantly find the cube root of a known perfect cube.",
+    "step": [
+      { "@type": "HowToStep", "text": "Split the number into groups of three digits from the right." },
+      { "@type": "HowToStep", "text": "Use the last digit of the number to identify the last digit of the cube root." },
+      { "@type": "HowToStep", "text": "Use the leading group of digits to identify the tens digit of the cube root." }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P74QD58W"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <header id="app-header">
+    <a class="brand" href="/" style="text-decoration:none;">Mental Math Daily</a>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <p><small><a href="/blog/">← Blog</a></small></p>
+      <h1>How to find cube roots instantly</h1>
+      <p>
+        This one only works when the number is a genuine perfect cube
+        (which is exactly what exams ask) — but when it applies, it's
+        one of the fastest tricks in competitive math: two lookups, no
+        calculation.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Step one: memorize the last-digit map</h2>
+      <p>
+        Every digit 0–9, when cubed, ends in a unique last digit. This
+        table is the entire trick:
+      </p>
+      <p style="font-family:var(--font-mono); color:var(--ink-dim); line-height:1.9;">
+        1³ ends in 1 &nbsp;&nbsp; 2³ ends in 8 &nbsp;&nbsp; 3³ ends in 7<br>
+        4³ ends in 4 &nbsp;&nbsp; 5³ ends in 5 &nbsp;&nbsp; 6³ ends in 6<br>
+        7³ ends in 3 &nbsp;&nbsp; 8³ ends in 2 &nbsp;&nbsp; 9³ ends in 9<br>
+        0³ ends in 0
+      </p>
+      <p>
+        Notice it's a one-to-one map — every last digit of the cube
+        points back to exactly one possible last digit of the root.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>The method for a 6-digit perfect cube</h2>
+      <p>
+        Split the number into the last three digits and everything
+        before them. The last digit of the whole number tells you the
+        units digit of the root (using the table above). The leading
+        group tells you the tens digit — find which two consecutive
+        cubes (10³, 20³, 30³...) it falls between, and take the smaller
+        one's root.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Worked example: ∛175616</h2>
+      <p>
+        Split: 175 | 616. Last digit of 616 is 6 → root ends in 6 (from
+        the table). Leading part 175 sits between 5³=125 and 6³=216, so
+        it's closer to the lower bound — tens digit is 5.
+      </p>
+      <p>Combine: <strong>56</strong>. Check: 56³ = 175616. ✓</p>
+    </div>
+
+    <div class="card">
+      <h2>Worked example: ∛884736</h2>
+      <p>
+        Split: 884 | 736. Last digit 6 → root ends in 6. Leading part
+        884 sits between 9³=729 and 10³=1000, so tens digit is 9.
+      </p>
+      <p>Combine: <strong>96</strong>. Check: 96³ = 884736. ✓</p>
+    </div>
+
+    <div class="card">
+      <h2>The catch</h2>
+      <p>
+        This only works cleanly for exact perfect cubes — it's a
+        recognition trick, not a general cube-root calculator. That's
+        fine, because exam questions built around cube roots are almost
+        always constructed around perfect cubes specifically, since
+        that's the only case with a clean integer answer to test.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Practice it</h2>
+      <p><a href="/practice/cubes.html">Practice cubes →</a> · <a href="/guide.html">See the rest of the shortcuts guide →</a></p>
+    </div>
+  </main>
+</body>
+</html>
